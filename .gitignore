@@ -1,0 +1,29 @@
+# Genel
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Docker & Environment Variables
+.env
+.env.local
+.env.*
+
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+backend/venv/
+backend/db.sqlite3
+backend/media/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.pnp
+.pnp.js
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
