@@ -8,21 +8,17 @@ from rest_framework.routers import DefaultRouter
 from portfolio.views import ProjectViewSet
 
 # API Router
-router = DefaultRouter()
-router.register(r'projects', ProjectViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # My API endpoints (http://localhost:8000/api/projects/)
-    path('api/', include(router.urls)),
-
-    # SWAGGER (Documentation)
+    path('api/portfolio/', include('portfolio.urls')),
+    path('api/blog/', include('blog.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-
 ]
 
 # To show img fields (Only dev)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

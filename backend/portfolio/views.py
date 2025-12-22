@@ -1,8 +1,13 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Project
-from .serializers import ProjectSerializer
+from .models import Project, Skill
+from .serializers import ProjectSerializer, SkillSerializer
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all().order_by('-created_at')
+    # Hangi verileri getireyim?
+    queryset = Project.objects.all()
+    # Hangi tercümanı kullanayım?
     serializer_class = ProjectSerializer
+
+class SkillViewSet(viewsets.ModelViewSet):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer

@@ -1,13 +1,12 @@
 {
-  "name": "Portfolio App (Monorepo)",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "backend",
+  "name": "Portfolio Full Stack Dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.dev.yml"
+  ],
+  "service": "django-web",
   "workspaceFolder": "/workspaces/portfolio-app",
-  "shutdownAction": "stopCompose",
-
-
-  "postCreateCommand": "pip install -r backend/requirements.txt",
-
+  // VS Code içine otomatik kurulacak eklentiler
   "customizations": {
     "vscode": {
       "extensions": [
@@ -17,11 +16,21 @@
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
-        "dsznajder.es7-react-js-snippets"
+        "dsznajder.es7-react-js-snippets",
+        "rangav.vscode-thunder-client"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
-  }
+  },
+  // SİHİRLİ KISIM: Konteyner oluştuğunda çalışacak komutlar.
+  // 1. Backend klasöründeki requirements.txt'yi kurar.
+  // 2. Frontend klasörüne gidip npm install yapar.
+  // "|| true" kısımları hata olsa bile konteynerin açılmasını sağlar.
+  "postCreateCommand": "pip install -r backend/requirements.txt",
+  // Linux dosya izinleri için oluşturduğumuz kullanıcıyı kullan
+  "remoteUser": "vscode"
+  // Docker Compose yerine tek konteyner kullandığımız için ağ ayarları
 }

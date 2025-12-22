@@ -1,44 +1,89 @@
-version: '3.8'
+version: "3.9"
 
 services:
+  # ----------------------------
+  # 1. DATABASE SERVICE
+  # ----------------------------
   db:
-    image: postgres:15
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    image: postgres:17
+    container_name: postgres-db
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
-
-  backend:
-    build: ./backend
+    # DNS sorunu için ekledik
     dns:
       - 8.8.8.8
-      - 1.1.1.1
-    volumes:
-      - ./backend:/app
-      - .:/workspaces/portfolio-app
-      - /var/run/docker.sock:/var/run/docker.sock
+      - 8.8.4.4
+
+  # ----------------------------
+  # 2. BACKEND SERVICE (Django)
+  # ----------------------------
+  django-web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: django-docker
     ports:
       - "8000:8000"
     depends_on:
       - db
+    # --- DÜZELTİLEN KISIM BURASI ---
+    volumes:
+      - .:/workspaces/portfolio-app
+    # working_dir düz bir yazı olmalı, tırnak içine alalım garanti olsun
+    working_dir: "/workspaces/portfolio-app/backend"
+    # -------------------------------
+    environment:
+      # Değişkenleri buraya $ ile çekiyoruz, değerleri .env dosyasından gelecek
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
     env_file:
       - .env
 
+  # ----------------------------
+  # 3. FRONTEND SERVICE (Next.js) - YENİ EKLENDİ
+  # ----------------------------
   frontend:
-
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-
-      - /app/node_modules
+    # Frontend dosyalarının olduğu klasör ismini buraya yaz (örn: ./frontend)
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: deps
+    container_name: nextjs-frontend
     ports:
       - "3000:3000"
+    # Canlı güncelleme (Hot Reload) için dosyaları bağlıyoruz
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Konteyner içindeki modülleri ezmemesi için
+    environment:
+      - NODE_ENV=development # Next.js'e geliştirme modunda olduğunu söyler
+      - WATCHPACK_POLLING=true # Windows/WSL dosya izleme sorununu çözer
+      - CHOKIDAR_USEPOLLING=true # Hot reload'u garantiye alır
+      - BACKEND_URL=http://django-web:8000
+    depends_on:
+      - django-web
+    env_file:
+      - .env
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
+# ----------------------------
+# VOLUMES
+# ----------------------------
 volumes:
   postgres_data:
