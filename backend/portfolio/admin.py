@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Skill, Experience
+from .models import Project, Skill, Experience, ContactMessage
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -19,3 +19,10 @@ class ExperienceAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     search_fields = ('title', 'company')
     filter_horizontal = ('skills',)
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'created_at', 'is_read')
+    list_filter = ('is_read', 'created_at')
+    search_fields = ('name', 'email', 'message')
+    readonly_fields = ('name', 'email', 'message', 'created_at') # Not editable from admin, only readable

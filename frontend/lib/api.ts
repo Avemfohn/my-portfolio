@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+
 const isServer = typeof window === 'undefined';
 
-// Bu değişkeni fetch içinde de kullanacağız
+// Base URL for API requests
 const baseURL = isServer
   ? process.env.INTERNAL_API_URL // Serverdaysak: http://backend:8000/api
   : process.env.NEXT_PUBLIC_API_URL; // Clienttaysak: http://localhost:8000/api
@@ -31,7 +32,7 @@ export const getImageUrl = (path?: string) => {
 
 // --- API CALLS ---
 
-// Projects (Burası Axios kalabilir, çok sık değişmiyor)
+// Projects (This can stay with Axios, it doesn't change often)
 export const getProjects = async () => {
   const response = await api.get('/portfolio/projects/');
   return response.data;
@@ -43,23 +44,31 @@ export const getPosts = async () => {
   return response.data;
 };
 
-// Get Experiences (GÜNCELLEME BURADA 👇)
-// Axios yerine native fetch kullanıyoruz ki cache kontrolü bizde olsun.
+// Get Experiences
+// We use native fetch to have control over caching
 export const getExperiences = async () => {
-  // baseURL değişkenini kullanarak fetch isteği atıyoruz
+  // request fetch
   const res = await fetch(`${baseURL}/portfolio/experiences/`, {
 
-    cache: 'no-store', // <--- İŞTE BÜTÜN OLAY BU (Cache'i kapatır)
+    cache: 'no-store',
 
     headers: { 'Content-Type': 'application/json' }
   });
 
   if (!res.ok) {
-    // Hata olursa (Backend çökerse vs.)
     throw new Error('Failed to fetch experiences');
   }
 
   return res.json();
+};
+
+export const sendContactMessage = async (data: { name: string; email: string; message: string }) => {
+  const payload = {
+    ...data,
+    subject: "Web Sitesi İletişim Formu" // Sabit bir başlık atadık
+  };
+  const response = await api.post('/portfolio/contact/', payload);
+  return response.data;
 };
 
 export default api;

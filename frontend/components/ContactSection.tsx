@@ -4,28 +4,46 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Send, Github, Linkedin, Twitter, ArrowRight, Copy, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { sendContactMessage } from '@/lib/api';
+
 
 const ContactSection = () => {
   const { t } = useLanguage();
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // Email kopyalama fonksiyonu (Küçük ama etkili UX)
+
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("mertcan@example.com"); // Kendi mailini yaz
+    navigator.clipboard.writeText("info@mertcanercan.com"); // Kendi mailini yaz
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('sending');
 
-    // Simülasyon (İleride buraya API isteği gelecek)
-    setTimeout(() => {
+    // Form verilerini al
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('name') as string, // Inputların 'name' attribute'u önemli!
+      email: formData.get('email') as string,
+      message: formData.get('message') as string,
+    };
+
+   try {
+      // Gerçek API isteği
+      await sendContactMessage(data);
+
       setFormStatus('success');
+      (e.target as HTMLFormElement).reset(); // Formu temizle
+
       setTimeout(() => setFormStatus('idle'), 4000);
-    }, 2000);
+    } catch (error) {
+      console.error("Mesaj gönderilemedi:", error);
+      // Buraya bir error state ekleyip kullanıcıya hata mesajı gösterebilirsin
+      setFormStatus('idle');
+    }
   };
 
   return (
@@ -76,7 +94,7 @@ const ContactSection = () => {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-slate-400 mb-1">{t.contact.info.email}</p>
-                      <p className="text-white font-medium">mertcan@example.com</p>
+                      <p className="text-white font-medium">info@mertcanercan.com</p>
                     </div>
                     <div className="text-slate-500">
                       {copiedEmail ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5 group-hover:text-white" />}
@@ -102,9 +120,8 @@ const ContactSection = () => {
                 <p className="text-sm text-slate-400 mb-4 font-medium uppercase tracking-wider">{t.contact.info.social}</p>
                 <div className="flex gap-3">
                   {[
-                    { icon: Github, href: "https://github.com/mertcanercan" }, // Linkleri kendine göre ayarla
-                    { icon: Linkedin, href: "#" },
-                    { icon: Twitter, href: "#" }
+                    { icon: Github, href: "https://github.com/AvemFohn" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/mertcanercan/" },
                   ].map((item, i) => (
                     <motion.a
                       key={i}
@@ -130,6 +147,7 @@ const ContactSection = () => {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
                       className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                       placeholder="John Doe"
@@ -142,6 +160,7 @@ const ContactSection = () => {
                     </label>
                     <input
                       type="email"
+                      name="email"
                       required
                       className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                       placeholder="john@example.com"
@@ -154,12 +173,20 @@ const ContactSection = () => {
                     </label>
                     <textarea
                       rows={4}
+                      name='message'
                       required
                       className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
                       placeholder="..."
                     />
                   </div>
-                </div>
+                    <input
+                      type="text"
+                      name="website_url_honeypot"
+                      style={{ display: 'none' }}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
 
                 <div className="pt-4">
                   <motion.button

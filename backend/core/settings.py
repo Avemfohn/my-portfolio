@@ -159,9 +159,15 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter', # Arama (Search) için
-        'rest_framework.filters.OrderingFilter', # Sıralama (Ordering) için
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/hour',
+    }
 }
 
 #Swagger Settings
@@ -171,3 +177,13 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('MAIL_HOST')          # .env'den okur
+EMAIL_PORT = os.getenv('MAIL_PORT')          # .env'den okur
+EMAIL_USE_TLS = True                         # Port 587 için True olmalı
+# EMAIL_USE_SSL = False                      # TLS kullanıyorsan bu False veya yorum satırı kalsın
+EMAIL_HOST_USER = os.getenv('MAIL_USERNAME') # .env'den okur
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD') # .env'den okur
+DEFAULT_FROM_EMAIL = os.getenv('MAIL_FROM_ADDRESS')
