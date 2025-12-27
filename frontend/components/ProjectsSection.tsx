@@ -1,66 +1,25 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import { getProjects } from '@/lib/api'; // API fonksiyonumuz
+import React from 'react';
+import { getProjects } from '@/lib/api';
 import { Project } from '@/types';
-import ProjectCard from './ProjectCard';
+import ProjectsList from './ProjectsList'; // <-- Oğlu çağırdık
 
-const ProjectsSection = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+// Bu bir SERVER COMPONENT (async olduğu için)
+// useLanguage burada KULLANILAMAZ.
+const ProjectsSection = async () => {
 
-  // Sayfa açıldığında veriyi çek
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getProjects();
-        setProjects(data);
-      } catch (error) {
-        console.error("Projeler çekilemedi:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  let projects: Project[] = [];
+  let error = null;
 
-    fetchData();
-  }, []);
+  try {
+    // Veriyi sunucuda çekiyoruz (Hızlı ve SEO dostu)
+    projects = await getProjects();
+  } catch (err) {
+    console.error("Error fetching projects:", err);
+    error = "An error occurred while loading projects.";
+  }
 
-  return (
-    <section className="py-20 bg-slate-900" id="projects">
-      <div className="container mx-auto px-6">
-
-        {/* --- BAŞLIK --- */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Featured <span className="text-blue-500">Projects</span>
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            Some of the works I have developed over time, using various technologies and tools.
-          </p>
-        </div>
-
-        {/* --- LİSTELEME --- */}
-        {loading ? (
-          // Yükleniyor Durumu (Basit bir yazı, ileride Skeleton yaparız)
-          <div className="text-center text-white">Projects Loading...</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
-        )}
-
-        {/* Veri Yoksa Uyarısı (Development Sırasında Faydalı) */}
-        {!loading && projects.length === 0 && (
-          <div className="text-center text-slate-500">
-            There is no project to display.
-          </div>
-        )}
-
-      </div>
-    </section>
-  );
+  // Veriyi Client Component'e teslim ediyoruz
+  return <ProjectsList projects={projects} error={error} />;
 };
 
 export default ProjectsSection;

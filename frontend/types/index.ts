@@ -15,6 +15,7 @@ export interface Project extends BaseEntity {
   title: string;
   slug: string;
   description: string;
+  description_tr?: string;
   image?: string;
   github_link?: string;
   live_link?: string;
@@ -42,4 +43,19 @@ export interface Post extends BaseEntity {
   location?: string;
   category_detail?: Category; // Seralized category details
   gallery?: PostImage[];
+}
+
+// Experience Related Types
+// frontend/types/index.ts
+export interface Experience {
+  id: number;
+  category: 'work' | 'education' | 'certificate'; // Added category field
+  company: string;
+  title: string;
+  location: string;
+  start_date: string;
+  end_date: string | null;
+  description: string;
+  description_tr?: string;
+  skills: Skill[];
 }

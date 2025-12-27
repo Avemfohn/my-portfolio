@@ -4,8 +4,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Typewriter from './Typewriter';
 import Image from 'next/image';
+import heroImage from '@/public/pp.jpeg';
+import { useLanguage } from '@/context/LanguageContext';
+
 
 const Hero = () => {
+  const {t, language} = useLanguage();
   return (
     <section className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-slate-900 text-white">
 
@@ -24,45 +28,47 @@ const Hero = () => {
           className="space-y-6"
         >
           <h2 className="text-xl md:text-2xl text-blue-400 font-medium tracking-wide">
-            Hello, I&apos;m Mertcan 👋
+            {t.hero.greeting}
           </h2>
 
           <h1 className="text-4xl md:text-6xl font-bold leading-tight h-24 md:h-auto">
 
-            I&apos;m
+            {t.hero.iam}
 
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
 
                <Typewriter
                   texts={[
-                    ' an ERP Developer',      // an ERP
-                    ' a Full Stack Developer', // a Full Stack
-                    ' a Traveler 🌍',          // a Traveler
-                    ' a Horse Rider 🐎'        // a Horse Rider
+                    t.hero.typewriter[0],      // an ERP
+                    t.hero.typewriter[1], // a Full Stack
+                    t.hero.typewriter[2],          // a Traveler
+                    t.hero.typewriter[3]        // a Horse Rider
                   ]}
                />
             </span>
           </h1>
 
           <p className="text-slate-300 text-lg max-w-lg">
-            I optimize business processes using technology, travel the world in my free time, and collect new stories.
+            {t.hero.desc}
           </p>
 
-          <div className="flex gap-4 pt-4">
+            <div className="flex gap-4 pt-4">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all cursor-pointer"
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 rounded-full font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all cursor-pointer"
             >
-              My Projects
+              {t.hero.btnProject}
             </motion.button>
+
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 border border-slate-600 rounded-full font-semibold hover:bg-slate-800 transition-all cursor-pointer"
             >
-              Contact Me
+              {t.hero.btnContact}
             </motion.button>
           </div>
         </motion.div>
@@ -74,16 +80,28 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="relative flex justify-center"
         >
-          <div className="absolute w-[350px] h-[350px] bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-2xl opacity-20 animate-pulse" />
-
+          <div className="absolute w-[360px] h-[360px] bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl opacity-30 animate-pulse" />
           <motion.div
-            animate={{ y: [0, -20, 0] }}
+            animate={{ y: [0, -20, 0] }} // Yüzen efekt
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="relative w-80 h-80 rounded-3xl overflow-hidden border-4 border-slate-800/50 shadow-2xl bg-slate-800"
+            className="relative w-72 md:w-96 aspect-[3/4] rounded-[2rem] overflow-hidden border-4 border-slate-800/50 shadow-2xl bg-slate-800 z-10"
           >
-             <div className="w-full h-full bg-slate-700 flex items-center justify-center text-slate-500">
-                Image Area
-             </div>
+             {/* NOTE:
+                1. fill: It makes the image cover the entire parent container.
+                2. object-cover: It crops the image to fill the container without distortion.
+                3. priority: This image should load immediately as it is critical for the LCP score.
+             */}
+             <Image
+               src={heroImage}
+               alt="Mertcan Profile"
+               fill
+               className="object-cover object-center hover:scale-110 transition-transform duration-500"
+               priority={true}
+               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+             />
+
+             {/* İsteğe bağlı: Resmin üzerine hafif bir gradient atarak yazılarla bütünleşmesini sağlar */}
+             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
           </motion.div>
         </motion.div>
 
