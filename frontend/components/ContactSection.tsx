@@ -35,7 +35,7 @@ const ContactSection = () => {
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden" id="contact">
 
-      {/* --- ARKA PLAN EFEKTLERİ --- */}
+      {/* --- Background Effects --- */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse [animation-delay:2s]" />
 
@@ -44,10 +44,10 @@ const ContactSection = () => {
         <div className="max-w-6xl mx-auto bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-[2.5rem] overflow-hidden shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
-            {/* --- SOL TARAFI: MARKALAMA & SOSYAL MEDYA --- */}
+            {/* --- LEFT SIDE: MARKETING & SOCIAL MEDIA --- */}
             <div className="p-10 md:p-14 bg-gradient-to-br from-slate-900/90 to-slate-800/90 flex flex-col justify-center relative overflow-hidden">
 
-              {/* Dekoratif Arka Plan Çizgileri */}
+              {/* Decorative Background Lines */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
               <div className="relative z-10">
@@ -69,14 +69,14 @@ const ContactSection = () => {
                   {t.contact.subtitle}
                 </motion.p>
 
-                {/* --- YENİLENMİŞ SOSYAL MEDYA ALANI --- */}
+                {/* --- SOCIAL MEDIA AREA --- */}
                 <div>
                   <p className="text-sm text-slate-500 mb-6 font-medium uppercase tracking-widest">
                     {t.contact.info.social}
                   </p>
 
                   <div className="flex flex-wrap gap-4">
-                    {/* GITHUB BUTONU */}
+                    {/* GITHUB BUTTON */}
                     <motion.a
                       href="https://github.com/AvemFohn"
                       target="_blank"
@@ -91,7 +91,7 @@ const ContactSection = () => {
                       <span className="text-slate-300 font-medium group-hover:text-white">GitHub</span>
                     </motion.a>
 
-                    {/* LINKEDIN BUTONU */}
+                    {/* LINKEDIN BUTTON */}
                     <motion.a
                       href="https://www.linkedin.com/in/mertcanercan/"
                       target="_blank"
@@ -111,12 +111,12 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* --- SAĞ TARAFI: FORM (AYNI KALDI) --- */}
+            {/* --- RIGHT SIDE --- */}
             <div className="p-10 md:p-14 bg-slate-800/20 backdrop-blur-sm">
               <form onSubmit={handleSubmit} className="space-y-6">
 
                 <div className="space-y-6">
-                  {/* İsim */}
+                  {/* Name */}
                   <div className="group">
                     <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-blue-400 transition-colors">
                       {t.contact.form.name}
@@ -144,7 +144,7 @@ const ContactSection = () => {
                     />
                   </div>
 
-                  {/* Mesaj */}
+                  {/* Message */}
                   <div className="group">
                     <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-blue-400 transition-colors">
                       {t.contact.form.message}
@@ -158,7 +158,7 @@ const ContactSection = () => {
                     />
                   </div>
 
-                  {/* Honeypot (Gizli Input) */}
+                  {/* Honeypot (Hidden Input) */}
                   <input
                     type="text"
                     name="website_url_honeypot"
@@ -204,8 +204,12 @@ const ContactSection = () => {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-12 text-slate-600 text-sm">
-          <p>© {new Date().getFullYear()} Mertcan Ercan. Built with Next.js & Django.</p>
+        <div className="text-center mt-12 pb-8 text-slate-500 text-sm">
+          <p className="flex items-center justify-center gap-2">
+            © {new Date().getFullYear()} Mertcan Ercan
+            <span className="hidden md:inline">|</span>
+            <span>Crafted with passion & engineering curiosity</span>
+          </p>
         </div>
 
       </div>

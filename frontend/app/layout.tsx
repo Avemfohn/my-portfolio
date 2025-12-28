@@ -4,6 +4,8 @@ import "./globals.css";
 import { LanguageProvider } from '@/context/LanguageContext';
 import {Inter} from 'next/font/google';
 import LanguageToggle from '@/components/LanguageToggle';
+import ScrollProgress from '@/components/ScrollProgress';
+import ScrollToTop from "@/components/ScrollToTop";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,11 +38,12 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ScrollProgress />
         <LanguageProvider>
           <LanguageToggle />
           {children}
         </LanguageProvider>
-
+        <ScrollToTop/>
       </body>
     </html>
   );

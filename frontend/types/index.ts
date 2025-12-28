@@ -59,3 +59,31 @@ export interface Experience {
   description_tr?: string;
   skills: Skill[];
 }
+
+
+//BLOG Types
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface PostImage {
+  id: number;
+  image: string;
+  caption: string | null;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  content: string; // Markdown olarak gelecek
+  cover_image: string | null;
+  location: string | null;
+  created_at: string;
+  category: number | null; // Sadece ID
+  category_detail: Category | null; // Detay objesi (Serializer'dan geliyor)
+  gallery: PostImage[];
+}

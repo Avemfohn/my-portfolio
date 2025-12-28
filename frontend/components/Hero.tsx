@@ -28,7 +28,7 @@ const Hero = () => {
         >
 
           <h2 className="text-xl md:text-2xl text-blue-400 font-medium tracking-wide">
-            {t.hero.greeting} 👋
+            {t.hero.greeting}
           </h2>
 
 
