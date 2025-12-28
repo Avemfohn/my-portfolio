@@ -3,13 +3,21 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV !== 'production';
 
 const nextConfig: NextConfig = {
+  experimental: {
+
+    allowedDevOrigins: [
+      'localhost:3000',
+      '127.0.0.1:3000',
+      '0.0.0.0:3000'
+    ],
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'localhost',
         port: '8000',
-        pathname: '/media/**', // Sadece media klasörüne izin ver
+        pathname: '/media/**',
       },
       {
         protocol: 'http',
@@ -18,7 +26,7 @@ const nextConfig: NextConfig = {
         pathname: '/media/**',
       },
     ],
-    unoptimized: isDev, // Allow localhost/private IP images in dev without Next optimization fetch
+    unoptimized: isDev,
   },
 };
 

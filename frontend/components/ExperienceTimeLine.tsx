@@ -95,9 +95,10 @@ const presentText = t.experience.present;
           <div className="absolute left-8 lg:left-1/2 w-0.5 h-full bg-slate-800 transform -translate-x-1/2" />
 
           <div className="space-y-12">
-            {/* AnimatePresence, elemanlar DOM'dan çıkarken animasyon oynatır */}
-            <AnimatePresence mode='wait'>
+
+            <AnimatePresence>
               {visibleData.map((item: any, index: number) => (
+                <motion.div key={item.id} layout>
                 <TimelineCard
                   key={item.id}
                   data={item}
@@ -105,6 +106,7 @@ const presentText = t.experience.present;
                   language={language}
                   presentText={presentText}
                 />
+                </motion.div>
               ))}
             </AnimatePresence>
           </div>
