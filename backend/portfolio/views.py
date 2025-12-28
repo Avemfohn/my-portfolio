@@ -5,6 +5,7 @@ from django.db.models import F
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
+from rest_framework.throttling import AnonRateThrottle
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_published=True).order_by('-created_at')
@@ -21,6 +22,8 @@ class ExperienceViewSet(viewsets.ModelViewSet):
 class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = ContactMessage.objects.all()
     serializer_class = ContactMessageSerializer
+
+    throttle_classes = [AnonRateThrottle]
 
     def perform_create(self, serializer):
 

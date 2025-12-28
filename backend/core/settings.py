@@ -162,11 +162,8 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-    ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/hour',
+        'anon': '5/hour', # Contact form specific limit
     }
 }
 
@@ -180,10 +177,10 @@ SPECTACULAR_SETTINGS = {
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('MAIL_HOST')          # .env'den okur
-EMAIL_PORT = os.getenv('MAIL_PORT')          # .env'den okur
-EMAIL_USE_TLS = True                         # Port 587 için True olmalı
-# EMAIL_USE_SSL = False                      # TLS kullanıyorsan bu False veya yorum satırı kalsın
-EMAIL_HOST_USER = os.getenv('MAIL_USERNAME') # .env'den okur
-EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD') # .env'den okur
+EMAIL_HOST = os.getenv('MAIL_HOST')
+EMAIL_PORT = os.getenv('MAIL_PORT')
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('MAIL_FROM_ADDRESS')

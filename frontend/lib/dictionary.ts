@@ -29,7 +29,10 @@ export const dictionary = {
     },
     projects: {
       title: "Featured Projects",
-      subtitle: "Some of the works I have developed over time."
+      subtitle: "Some of the works I have developed over time.",
+      noProjectsFound: "No projects found.",
+      noImg : "No Image Available",
+      live: "Live Site",
     },
     contact: {
       title: "Get In Touch",
@@ -79,7 +82,9 @@ export const dictionary = {
     projects: {
       title: "Öne Çıkan Projeler",
       subtitle: "Zaman içinde geliştirdiğim bazı çalışmalar.",
-      noProjectsFound: "Proje bulunamadı."
+      noProjectsFound: "Proje bulunamadı.",
+      noImg : "Görsel Yok",
+      live: "Canlı Site",
     },
     contact: {
       title: "İletişime Geçin",
