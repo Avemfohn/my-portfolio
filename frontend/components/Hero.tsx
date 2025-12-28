@@ -117,7 +117,7 @@ const Hero = () => {
               className="absolute -bottom-5 -right-5 bg-slate-800/90 backdrop-blur-md p-3 rounded-xl border border-slate-700 shadow-xl flex items-center gap-2 z-20"
             >
               <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-xs font-medium text-slate-300">Open to Work</span>
+              <span className="text-xs font-medium text-slate-300">{t.hero.workStatus}</span>
             </motion.div>
 
           </motion.div>

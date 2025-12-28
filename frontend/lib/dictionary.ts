@@ -13,7 +13,8 @@ export const dictionary = {
         ' a Full Stack Developer',
         ' a Traveler 🌍',
         ' a Horse Rider 🐎'
-      ]
+      ],
+      workStatus: "Open to Work"
     },
     experience: {
       title: "Experience History",
@@ -68,7 +69,8 @@ export const dictionary = {
         ' bir Full Stack Yazılımcıyım',
         ' bir Gezginim 🌍',
         ' bir Biniciyim 🐎'
-      ]
+      ],
+      workStatus: "İşe Açığım"
     },
     experience: {
       title: "Kariyer Geçmişi",

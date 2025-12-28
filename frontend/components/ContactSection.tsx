@@ -2,46 +2,32 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, Github, Linkedin, Twitter, ArrowRight, Copy, Check } from 'lucide-react';
+import { Send, Github, Linkedin, ArrowRight, Check } from 'lucide-react'; // Mail, MapPin, Copy sildik
 import { useLanguage } from '@/context/LanguageContext';
 import { sendContactMessage } from '@/lib/api';
-
 
 const ContactSection = () => {
   const { t } = useLanguage();
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success'>('idle');
-  const [copiedEmail, setCopiedEmail] = useState(false);
-
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText("info@mertcanercan.com"); // Kendi mailini yaz
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('sending');
 
-    // Form verilerini al
     const formData = new FormData(e.currentTarget);
     const data = {
-      name: formData.get('name') as string, // Inputların 'name' attribute'u önemli!
+      name: formData.get('name') as string,
       email: formData.get('email') as string,
       message: formData.get('message') as string,
     };
 
-   try {
-      // Gerçek API isteği
+    try {
       await sendContactMessage(data);
-
       setFormStatus('success');
-      (e.target as HTMLFormElement).reset(); // Formu temizle
-
+      (e.target as HTMLFormElement).reset();
       setTimeout(() => setFormStatus('idle'), 4000);
     } catch (error) {
-      console.error("Mesaj gönderilemedi:", error);
-      // Buraya bir error state ekleyip kullanıcıya hata mesajı gösterebilirsin
+      console.error("Hata:", error);
       setFormStatus('idle');
     }
   };
@@ -49,7 +35,7 @@ const ContactSection = () => {
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden" id="contact">
 
-      {/* --- ARKA PLAN EFEKTLERİ (Aurora Lights) --- */}
+      {/* --- ARKA PLAN EFEKTLERİ --- */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse [animation-delay:2s]" />
 
@@ -58,89 +44,79 @@ const ContactSection = () => {
         <div className="max-w-6xl mx-auto bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-[2.5rem] overflow-hidden shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
-            {/* --- SOL TARAFI: BİLGİ KARTI --- */}
-            <div className="p-10 md:p-14 bg-gradient-to-br from-slate-900/80 to-slate-800/80 flex flex-col justify-between relative overflow-hidden">
-              {/* Dekoratif Çizgiler */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2" />
+            {/* --- SOL TARAFI: MARKALAMA & SOSYAL MEDYA --- */}
+            <div className="p-10 md:p-14 bg-gradient-to-br from-slate-900/90 to-slate-800/90 flex flex-col justify-center relative overflow-hidden">
 
-              <div>
+              {/* Dekoratif Arka Plan Çizgileri */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+
+              <div className="relative z-10">
                 <motion.h3
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
                 >
                   {t.contact.title}
+                  <span className="text-blue-500">.</span>
                 </motion.h3>
+
                 <motion.p
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-slate-400 text-lg mb-12 leading-relaxed"
+                  className="text-slate-400 text-lg mb-12 leading-relaxed max-w-md"
                 >
                   {t.contact.subtitle}
                 </motion.p>
 
-                {/* İletişim Bilgileri */}
-                <div className="space-y-6">
+                {/* --- YENİLENMİŞ SOSYAL MEDYA ALANI --- */}
+                <div>
+                  <p className="text-sm text-slate-500 mb-6 font-medium uppercase tracking-widest">
+                    {t.contact.info.social}
+                  </p>
 
-                  {/* Mail Kutusu (İnteraktif) */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-blue-500/50 transition-colors group cursor-pointer"
-                    onClick={handleCopyEmail}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm text-slate-400 mb-1">{t.contact.info.email}</p>
-                      <p className="text-white font-medium">info@mertcanercan.com</p>
-                    </div>
-                    <div className="text-slate-500">
-                      {copiedEmail ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5 group-hover:text-white" />}
-                    </div>
-                  </motion.div>
-
-                  {/* Konum */}
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
-                    <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
-                      <MapPin className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-slate-400 mb-1">{t.contact.info.location}</p>
-                      <p className="text-white font-medium">Istanbul, Turkiye</p>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Sosyal Medya */}
-              <div className="mt-12">
-                <p className="text-sm text-slate-400 mb-4 font-medium uppercase tracking-wider">{t.contact.info.social}</p>
-                <div className="flex gap-3">
-                  {[
-                    { icon: Github, href: "https://github.com/AvemFohn" },
-                    { icon: Linkedin, href: "https://www.linkedin.com/in/mertcanercan/" },
-                  ].map((item, i) => (
+                  <div className="flex flex-wrap gap-4">
+                    {/* GITHUB BUTONU */}
                     <motion.a
-                      key={i}
-                      href={item.href}
-                      whileHover={{ y: -5 }}
-                      className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-blue-500 hover:bg-blue-500/10 transition-all"
+                      href="https://github.com/AvemFohn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group flex items-center gap-3 px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl hover:bg-slate-800 hover:border-white/20 transition-all cursor-pointer shadow-lg hover:shadow-xl"
                     >
-                      <item.icon className="w-5 h-5" />
+                      <div className="p-2 bg-white/5 rounded-lg group-hover:bg-white text-white group-hover:text-black transition-colors">
+                         <Github className="w-6 h-6" />
+                      </div>
+                      <span className="text-slate-300 font-medium group-hover:text-white">GitHub</span>
                     </motion.a>
-                  ))}
+
+                    {/* LINKEDIN BUTONU */}
+                    <motion.a
+                      href="https://www.linkedin.com/in/mertcanercan/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group flex items-center gap-3 px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl hover:bg-blue-600 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:shadow-blue-500/25"
+                    >
+                      <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-white text-blue-400 group-hover:text-blue-600 transition-colors">
+                         <Linkedin className="w-6 h-6" />
+                      </div>
+                      <span className="text-slate-300 font-medium group-hover:text-white">LinkedIn</span>
+                    </motion.a>
+                  </div>
                 </div>
+
               </div>
             </div>
 
-            {/* --- SAĞ TARAFI: FORM ALANI --- */}
+            {/* --- SAĞ TARAFI: FORM (AYNI KALDI) --- */}
             <div className="p-10 md:p-14 bg-slate-800/20 backdrop-blur-sm">
               <form onSubmit={handleSubmit} className="space-y-6">
 
                 <div className="space-y-6">
+                  {/* İsim */}
                   <div className="group">
                     <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-blue-400 transition-colors">
                       {t.contact.form.name}
@@ -154,6 +130,7 @@ const ContactSection = () => {
                     />
                   </div>
 
+                  {/* Email */}
                   <div className="group">
                     <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-blue-400 transition-colors">
                       {t.contact.form.email}
@@ -167,6 +144,7 @@ const ContactSection = () => {
                     />
                   </div>
 
+                  {/* Mesaj */}
                   <div className="group">
                     <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-blue-400 transition-colors">
                       {t.contact.form.message}
@@ -179,14 +157,16 @@ const ContactSection = () => {
                       placeholder="..."
                     />
                   </div>
-                    <input
-                      type="text"
-                      name="website_url_honeypot"
-                      style={{ display: 'none' }}
-                      tabIndex={-1}
-                      autoComplete="off"
-                    />
-                  </div>
+
+                  {/* Honeypot (Gizli Input) */}
+                  <input
+                    type="text"
+                    name="website_url_honeypot"
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                 <div className="pt-4">
                   <motion.button
@@ -197,7 +177,7 @@ const ContactSection = () => {
                     className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow-lg transition-all duration-300
                       ${formStatus === 'success'
                         ? 'bg-green-500 text-white shadow-green-500/25'
-                        : 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto] hover:bg-right text-white shadow-blue-500/25'
+                        : 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto] hover:bg-right text-white shadow-blue-500/25 cursor-pointer'
                       }`}
                   >
                     {formStatus === 'idle' && (
@@ -217,14 +197,13 @@ const ContactSection = () => {
                     )}
                   </motion.button>
                 </div>
-
               </form>
             </div>
 
           </div>
         </div>
 
-        {/* Footer Benzeri Alt Yazı */}
+        {/* Footer */}
         <div className="text-center mt-12 text-slate-600 text-sm">
           <p>© {new Date().getFullYear()} Mertcan Ercan. Built with Next.js & Django.</p>
         </div>
