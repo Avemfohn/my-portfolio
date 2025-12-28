@@ -1,23 +1,25 @@
 import axios from 'axios';
-
+import { BlogPost, Category } from '@/types';
 
 const isServer = typeof window === 'undefined';
 
-// Base URL for API requests
+
 const baseURL = isServer
-  ? process.env.INTERNAL_API_URL // Serverdaysak: http://backend:8000/api
-  : process.env.NEXT_PUBLIC_API_URL; // Clienttaysak: http://localhost:8000/api
+  ? process.env.INTERNAL_API_URL || 'http://backend:8000/api'
+  : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 const api = axios.create({
   baseURL: baseURL,
   headers: { 'Content-Type': 'application/json' },
 });
 
+// --- IMAGE HELPER ---
 export const getImageUrl = (path?: string) => {
   if (!path) return '/placeholder.png';
 
   const internalPrefix = 'http://django-web:8000';
   const publicPrefix = 'http://localhost:8000';
+
 
   if (path.startsWith(internalPrefix)) {
     return path.replace(internalPrefix, publicPrefix);
@@ -32,43 +34,65 @@ export const getImageUrl = (path?: string) => {
 
 // --- API CALLS ---
 
-// Projects (This can stay with Axios, it doesn't change often)
+// Projects
 export const getProjects = async () => {
   const response = await api.get('/portfolio/projects/');
   return response.data;
 };
 
-// Blog Posts
-export const getPosts = async () => {
-  const response = await api.get('/blog/posts/');
+// Experiences (Native fetch for caching control)
+export const getExperiences = async () => {
+  const res = await fetch(`${baseURL}/portfolio/experiences/`, {
+    cache: 'no-store',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch experiences');
+  return res.json();
+};
+
+// Contact
+export const sendContactMessage = async (data: { name: string; email: string; message: string }) => {
+  const payload = {
+    ...data,
+    subject: "Website Contact Form"
+  };
+  const response = await api.post('/portfolio/contact/', payload);
   return response.data;
 };
 
-// Get Experiences
-// We use native fetch to have control over caching
-export const getExperiences = async () => {
-  // request fetch
-  const res = await fetch(`${baseURL}/portfolio/experiences/`, {
+// --- BLOG SECTION
 
-    cache: 'no-store',
 
+export const getBlogPosts = async (): Promise<BlogPost[]> => {
+
+  const res = await fetch(`${baseURL}/blog/posts/`, {
+    next: { revalidate: 60 },
     headers: { 'Content-Type': 'application/json' }
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch experiences');
+    // It will be changed in production
+    throw new Error('Failed to fetch blog posts');
   }
 
   return res.json();
 };
 
-export const sendContactMessage = async (data: { name: string; email: string; message: string }) => {
-  const payload = {
-    ...data,
-    subject: "Web Sitesi İletişim Formu" // Sabit bir başlık atadık
-  };
-  const response = await api.post('/portfolio/contact/', payload);
-  return response.data;
+export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
+  const posts = await getBlogPosts();
+  return posts.find((post) => post.slug === slug);
+};
+
+
+export const getCategories = async (): Promise<Category[]> => {
+  const res = await fetch(`${baseURL}/blog/categories/`, {
+    cache: 'force-cache',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (!res.ok) return [];
+  return res.json();
 };
 
 export default api;

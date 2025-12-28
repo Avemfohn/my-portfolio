@@ -6,6 +6,7 @@ from portfolio.models import TimeStampedModel
 # Category model to represent blog post categories
 class Category(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
+    name_tr = models.CharField(max_length=100, unique=True, blank=True, null=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     class Meta:
@@ -24,10 +25,13 @@ class Category(TimeStampedModel):
 class Post(TimeStampedModel):
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200)
+    title_tr= models.CharField(max_length=200, blank=True, null=True)
     content = models.TextField()
+    content_tr= models.TextField(blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     cover_image = models.ImageField(upload_to='blog/covers', blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
+    location_tr = models.CharField(max_length=200, blank=True, null=True)
     is_published = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

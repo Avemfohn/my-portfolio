@@ -23,27 +23,6 @@ export interface Project extends BaseEntity {
   skills: Skill[];
 }
 
-// Blog Related Types
-export interface Category extends BaseEntity {
-  name: string;
-  slug: string;
-}
-
-export interface PostImage {
-  id: number;
-  image: string;
-  caption?: string;
-}
-
-export interface Post extends BaseEntity {
-  title: string;
-  slug: string;
-  content: string;
-  cover_image?: string;
-  location?: string;
-  category_detail?: Category; // Seralized category details
-  gallery?: PostImage[];
-}
 
 // Experience Related Types
 // frontend/types/index.ts
@@ -66,6 +45,7 @@ export interface Experience {
 export interface Category {
   id: number;
   name: string;
+  name_tr?: string;
   slug: string;
 }
 
@@ -78,12 +58,15 @@ export interface PostImage {
 export interface BlogPost {
   id: number;
   title: string;
+  title_tr?: string;
   slug: string;
-  content: string; // Markdown olarak gelecek
+  content: string;
+  content_tr?: string;
   cover_image: string | null;
   location: string | null;
+  location_tr?: string;
   created_at: string;
-  category: number | null; // Sadece ID
-  category_detail: Category | null; // Detay objesi (Serializer'dan geliyor)
+  category: number | null;
+  category_detail: Category | null;
   gallery: PostImage[];
 }

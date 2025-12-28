@@ -56,6 +56,17 @@ export const dictionary = {
         social: "Social Profiles"
       }
     },
+
+    //BLOG translations
+    blog: {
+      title: "Blog",
+      subtitle: "Stories",
+      noPostsFound: "No blog posts found.",
+      noImg : "No Image Available",
+      readMore: "Read More",
+      backToBlog: "Back to Blog",
+      desc: "From my journey."
+    }
   },
   tr: {
     hero: {
@@ -111,6 +122,16 @@ export const dictionary = {
         location: "Konum",
         social: "Sosyal Profiller"
       }
+    },
+    //BLOG translations
+    blog : {
+      title: "Blog",
+      subtitle: "Hikayeler",
+      noPostsFound: "Blog yazısı bulunamadı.",
+      noImg : "Görsel Yok",
+      readMore: "Devamını Oku",
+      backToBlog: "Blog'a Geri Dön",
+      desc:"Yolculuğumdan."
     }
   }
 };
