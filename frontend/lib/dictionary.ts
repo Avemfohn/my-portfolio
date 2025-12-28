@@ -33,6 +33,9 @@ export const dictionary = {
       noProjectsFound: "No projects found.",
       noImg : "No Image Available",
       live: "Live Site",
+      tech: "Technologies",
+      sourceCode : "Source Code",
+      liveProject: "Live Project"
     },
     contact: {
       title: "Get In Touch",
@@ -85,6 +88,9 @@ export const dictionary = {
       noProjectsFound: "Proje bulunamadı.",
       noImg : "Görsel Yok",
       live: "Canlı Site",
+      tech: "Teknolojiler",
+      sourceCode : "Kaynak Kod",
+      liveProject: "Canlı Proje"
     },
     contact: {
       title: "İletişime Geçin",
