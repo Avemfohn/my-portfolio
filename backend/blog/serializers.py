@@ -9,7 +9,7 @@ class PostImageSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'slug']
+        fields = ['id', 'name', 'name_tr', 'slug']
 
 class PostSerializer(serializers.ModelSerializer):
     # To show category details

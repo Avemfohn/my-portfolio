@@ -208,7 +208,7 @@ const ContactSection = () => {
           <p className="flex items-center justify-center gap-2">
             © {new Date().getFullYear()} Mertcan Ercan
             <span className="hidden md:inline">|</span>
-            <span>Crafted with passion & engineering curiosity</span>
+            <span>{t.contact.craftedWith}</span>
           </p>
         </div>
 

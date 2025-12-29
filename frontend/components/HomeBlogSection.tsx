@@ -16,7 +16,7 @@ interface HomeBlogProps {
 const HomeBlogSection = ({ posts }: HomeBlogProps) => {
   const { t, language } = useLanguage();
 
-  // Sadece son 3 yazıyı gösterelim
+  // Last 3 posts
   const recentPosts = posts.slice(0, 3);
 
   if (recentPosts.length === 0) return null;
@@ -24,13 +24,13 @@ const HomeBlogSection = ({ posts }: HomeBlogProps) => {
   return (
     <section className="py-24 relative overflow-hidden bg-slate-900">
 
-      {/* Arka Plan Süslemeleri */}
+      {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-blue-600/5 blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/3 h-full bg-purple-600/5 blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
 
-        {/* --- BAŞLIK ALANI --- */}
+        {/* --- HEADER AREA --- */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -38,13 +38,11 @@ const HomeBlogSection = ({ posts }: HomeBlogProps) => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 flex items-center gap-3">
-              {language === 'en' ? "Beyond the Code" : "Kodun Ötesinde"}
+              {language === 'en' ? t.blog.heading : t.blog.heading}
               <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
             </h2>
             <p className="text-slate-400 max-w-lg text-lg">
-              {language === 'en'
-                ? "Sharing my journey through technology, travel, and life."
-                : "Teknoloji, seyahat ve hayata dair yolculuğumdan notlar."}
+              {language === 'en' ? t.blog.desc : t.blog.desc}
             </p>
           </motion.div>
 
@@ -57,16 +55,16 @@ const HomeBlogSection = ({ posts }: HomeBlogProps) => {
               href="/blog"
               className="group flex items-center gap-2 text-white border border-slate-700 px-6 py-3 rounded-full hover:bg-slate-800 hover:border-blue-500 transition-all"
             >
-              {language === 'en' ? "Read All Articles" : "Tüm Yazıları Oku"}
+              {language === 'en' ? t.blog.readAllArticles : t.blog.readAllArticles}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
         </div>
 
-        {/* --- KARTLAR (GRID) --- */}
+        {/* --- CARDS (GRID) --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {recentPosts.map((post, i) => {
-             // Dil kontrolü
+             // Language control
              const title = (language === 'tr' && post.title_tr) ? post.title_tr : post.title;
              const category = (language === 'tr' && post.category_detail?.name_tr) ? post.category_detail.name_tr : post.category_detail?.name;
 
@@ -93,33 +91,33 @@ const HomeBlogSection = ({ posts }: HomeBlogProps) => {
                     ) : (
                       <div className="w-full h-full bg-slate-800" />
                     )}
-                    {/* Karartma Gradyanı */}
+                    {/* Darkening Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
                   </div>
 
-                  {/* İçerik (Resmin Üzerine Biniyor) */}
+                  {/* Content (Overlays the Image) */}
                   <div className="absolute inset-0 p-8 flex flex-col justify-end">
 
-                    {/* En yeni yazıya "NEW" etiketi */}
+                    {/* "NEW" tag for the newest post */}
                     {i === 0 && (
-                      <div className="absolute top-6 right-6 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-pulse">
-                        NEW
-                      </div>
+                        <div className="absolute top-6 right-6 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-pulse uppercase">
+                        {language === 'en' ? t.blog.new : t.blog.new}
+                        </div>
                     )}
 
-                    {/* Kategori */}
+                    {/* Category */}
                     <span className="inline-block text-blue-400 text-sm font-medium mb-3 tracking-wider uppercase">
-                      {category}
+                      {language === 'tr' ? post.category_detail?.name_tr : post.category_detail?.name}
                     </span>
 
-                    {/* Başlık */}
+                    {/* Title */}
                     <h3 className="text-2xl font-bold text-white mb-4 leading-tight group-hover:text-blue-300 transition-colors">
-                      {title}
+                      {language === 'tr' ? post.title_tr : post.title}
                     </h3>
 
-                    {/* Okuma Süresi / Tarih vb. */}
+                    {/* Reading Time / Date etc. */}
                     <div className="flex items-center gap-2 text-slate-400 text-sm">
-                      <span>Read Article</span>
+                      <span>{language === 'en' ? t.blog.readArticle : t.blog.readArticle}</span>
                       <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                     </div>
                   </div>

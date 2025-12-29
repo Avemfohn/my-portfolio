@@ -8,7 +8,7 @@ class PostImageInline(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    list_display = ('name', 'name_tr', 'slug')
     prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Post)
@@ -18,3 +18,9 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('category', 'is_published')
     prepopulated_fields = {'slug': ('title',)}
     inlines = [PostImageInline]
+
+    @admin.display(description='Category (TR)')
+    def get_category_tr(self, obj):
+        if obj.category:
+            return obj.category.name_tr
+        return "-"

@@ -54,7 +54,8 @@ export const dictionary = {
         email: "Email Me",
         location: "Location",
         social: "Social Profiles"
-      }
+      },
+      craftedWith: "Crafted with passion & engineering curiosity",
     },
 
     //BLOG translations
@@ -65,8 +66,17 @@ export const dictionary = {
       noImg : "No Image Available",
       readMore: "Read More",
       backToBlog: "Back to Blog",
-      desc: "From my journey."
+      desc: "From my journey.",
+      badge: 'Global Traveller & Tech Enthusiast',
+      heading: 'My Journey',
+      description: 'Exploring the world, one line of code and one city at a time.',
+      scrollText: 'Scroll to Explore',
+      new: "New",
+      readArticle: "Read Article",
+      exploreLatest: "Explore the latest insights and tutorials.",
+      postsFound: "Posts Found",
     }
+
   },
   tr: {
     hero: {
@@ -121,7 +131,8 @@ export const dictionary = {
         email: "Bana E-posta Gönderin",
         location: "Konum",
         social: "Sosyal Profiller"
-      }
+      },
+      craftedWith: "Tutku ve mühendislik merakıyla hazırlandı",
     },
     //BLOG translations
     blog : {
@@ -131,7 +142,15 @@ export const dictionary = {
       noImg : "Görsel Yok",
       readMore: "Devamını Oku",
       backToBlog: "Blog'a Geri Dön",
-      desc:"Yolculuğumdan."
+      desc:"Yolculuğumdan.",
+      badge : "Gezgin & Teknoloji Meraklısı",
+      heading: "Yolculuğum",
+      description: "Her satır kodda ve her yeni şehirde dünyayı keşfediyorum.",
+      scrollText: "Keşfetmek için Kaydır",
+      new : "Yeni",
+      readArticle: "Makaleyi Oku",
+      exploreLatest: "En güncel rehberleri ve notları keşfet.",
+      postsFound: "Yazı Bulundu",
     }
   }
 };
