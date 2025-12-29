@@ -80,8 +80,20 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
 };
 
 export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
-  const posts = await getBlogPosts();
-  return posts.find((post) => post.slug === slug);
+  try {
+    const res = await fetch(`${baseURL}/blog/posts/${slug}/`, {
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!res.ok) {
+      return undefined;
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching post by slug:", error);
+    return undefined;
+  }
 };
 
 

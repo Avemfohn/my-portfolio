@@ -7,6 +7,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     search_fields = ['title', 'content']
     filterset_fields = ['category']
+    lookup_field = 'slug'
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
