@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { dictionary } from '@/lib/dictionary';
-import { PageTransition } from '@/components/PageTransition';
+import { PageTransition } from '@/components/ui/PageTransition';
 
 type Language = 'en' | 'tr';
 

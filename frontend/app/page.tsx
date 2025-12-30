@@ -1,8 +1,8 @@
-import Hero from '@/components/Hero';
-import ProjectsSection from '@/components/ProjectsSection';
-import Experience from '@/components/Experience';
-import ContactSection from '@/components/ContactSection';
-import HomeBlogSection from '@/components/HomeBlogSection';
+import Hero from '@/components/sections/Hero';
+import ProjectsSection from '@/components/projects/ProjectsSection';
+import Experience from '@/components/experience/Experience';
+import ContactSection from '@/components/sections/ContactSection';
+import HomeBlogSection from '@/components/sections/HomeBlogSection';
 import {getBlogPosts } from '@/lib/api'; // <--- getBlogPosts EKLENDİ
 
 export default async function Home() {

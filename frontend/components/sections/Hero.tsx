@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Typewriter from './Typewriter';
+import Typewriter from '@/components/ui/Typewriter';
 import Image from 'next/image';
 import heroImage from '@/public/pp.jpeg';
 import { useLanguage } from '@/context/LanguageContext';

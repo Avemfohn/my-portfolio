@@ -4,7 +4,7 @@
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { BlogPost } from '@/types';
-import BlogCard from '@/components/BlogCard';
+import BlogCard from '@/components/blog/BlogCard';
 import { LayoutGrid, ListFilter } from 'lucide-react'; // İkonlar ekledik
 
 interface BlogContentProps {

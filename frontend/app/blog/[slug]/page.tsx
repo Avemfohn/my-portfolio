@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { getBlogPostBySlug } from '@/lib/api';
-import BlogPostView from '@/components/BlogPostView';
+import BlogPostView from '@/components/blog/BlogPostView';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -40,9 +41,9 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="text-center">
           <h1 className="text-6xl font-bold text-blue-500 mb-4">404</h1>
           <p className="text-xl text-slate-400">Blog post not found in the archives.</p>
-          <a href="/blog" className="mt-8 inline-block px-6 py-3 bg-slate-800 rounded-full hover:bg-slate-700 transition">
-            Back to Mission Control
-          </a>
+          <Link href="/blog" className="mt-8 inline-block px-6 py-3 bg-slate-800 rounded-full hover:bg-slate-700 transition">
+              Back to Mission Control
+          </Link>
         </div>
       </div>
     );

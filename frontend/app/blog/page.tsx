@@ -1,8 +1,8 @@
 import React from 'react';
 import { getBlogPosts } from '@/lib/api';
 import { BlogPost } from '@/types';
-import BlogContent from '@/components/BlogContent';
-import BlogHero from '@/components/BlogHero'; // <--- EKLENDİ
+import BlogContent from '@/components/blog/BlogContent';
+import BlogHero from '@/components/blog/BlogHero'; // <--- EKLENDİ
 
 export const metadata = {
   title: 'Blog | Mertcan Ercan',

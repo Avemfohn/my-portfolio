@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from '@/context/LanguageContext';
 import {Inter} from 'next/font/google';
-import LanguageToggle from '@/components/LanguageToggle';
-import ScrollProgress from '@/components/ScrollProgress';
-import ScrollToTop from "@/components/ScrollToTop";
-import HomeLink from '@/components/HomeLink';
+import LanguageToggle from '@/components/navigation/LanguageToggle';
+import ScrollProgress from '@/components/ui/ScrollProgress';
+import ScrollToTop from "@/components/ui/ScrollToTop";
+import HomeLink from '@/components/navigation/HomeLink';
 
 const inter = Inter({
   subsets: ['latin'],
