@@ -1,5 +1,7 @@
 // frontend/lib/dictionary.ts
 
+import { backIn } from "framer-motion";
+
 export const dictionary = {
   en: {
     hero: {
@@ -14,7 +16,8 @@ export const dictionary = {
         ' a Traveler 🌍',
         ' a Horse Rider 🐎'
       ],
-      workStatus: "Open to Work"
+      workStatus: "Open to Work",
+      load: "Loading..."
     },
     experience: {
       title: "Experience History",
@@ -75,6 +78,7 @@ export const dictionary = {
       readArticle: "Read Article",
       exploreLatest: "Explore the latest insights and tutorials.",
       postsFound: "Posts Found",
+      shareThisPost: "Share This Post"
     }
 
   },
@@ -91,7 +95,8 @@ export const dictionary = {
         ' bir Gezginim 🌍',
         ' bir Biniciyim 🐎'
       ],
-      workStatus: "İşe Açığım"
+      workStatus: "İşe Açığım",
+      load: "Yükleniyor..."
     },
     experience: {
       title: "Kariyer Geçmişi",
@@ -151,6 +156,7 @@ export const dictionary = {
       readArticle: "Makaleyi Oku",
       exploreLatest: "En güncel rehberleri ve notları keşfet.",
       postsFound: "Yazı Bulundu",
+      shareThisPost: "Bu yazıyı paylaş",
     }
   }
 };

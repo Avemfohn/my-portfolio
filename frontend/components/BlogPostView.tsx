@@ -115,7 +115,7 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
                 <div className="p-2 rounded-full bg-slate-800 border border-slate-700 group-hover:border-blue-500 transition-all">
                   <ArrowLeft className="w-5 h-5" />
                 </div>
-                <span className="text-sm font-medium">Back to Blog</span>
+                <span className="text-sm font-medium">{t.blog.backToBlog}</span>
               </Link>
 
               {/* Paylaş Butonu */}
@@ -123,7 +123,7 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
                  <div className="p-2 rounded-full bg-slate-800 border border-slate-700">
                    <Share2 className="w-5 h-5" />
                  </div>
-                 <span className="text-sm">Share this post</span>
+                 <span className="text-sm">{t.blog.shareThisPost}</span>
               </button>
 
               {/* Buraya ilerde "Table of Contents" (İçindekiler) ekleyebiliriz */}
