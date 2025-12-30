@@ -21,20 +21,16 @@ export const PageTransition = ({ isVisible }: PageTransitionProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }} // Arka plan çok hızlı gelsin
+          transition={{ duration: 0.2 }}
           className="fixed inset-0 z-[9999] bg-[#0a192f] flex flex-col items-center justify-center"
         >
-          {/* LOGO EFEKTİ: SNAP & ZOOM */}
+
           <motion.div
-            // Başlangıç: Küçük, silik ve biraz eğik (-45 derece)
+
             initial={{ scale: 0.5, opacity: 0, rotate: -45 }}
-            // Bitiş: Tam boyut, net ve düz
+
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            // Çıkış: Hafifçe büyüyerek kaybolsun (Fade out)
             exit={{ scale: 1.1, opacity: 0, transition: { duration: 0.2 } }}
-            // Transition: SPRING (Yaylanma)
-            // stiffness: Yayın sertliği (arttıkça hızlanır)
-            // damping: Yayın sönümlemesi (azaldıkça daha çok titrer/yaylanır)
             transition={{
               type: "spring",
               stiffness: 260,
@@ -50,7 +46,6 @@ export const PageTransition = ({ isVisible }: PageTransitionProps) => {
               className="object-cover"
               priority
             />
-            {/* Üzerine anlık bir parlama efekti (Flash) */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.5, 0] }} // Yanıp söner

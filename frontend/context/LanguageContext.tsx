@@ -39,7 +39,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     setLanguage(newLang);
     localStorage.setItem('language', newLang);
     // D. Scroll to the top to give the feeling that the page has changed
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    //window.scrollTo({ top: 0, behavior: 'instant' });
     await new Promise((resolve) => setTimeout(resolve, 400));
     // E. Remove the curtain
     setIsTransitioning(false);

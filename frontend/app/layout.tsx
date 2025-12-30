@@ -6,6 +6,7 @@ import {Inter} from 'next/font/google';
 import LanguageToggle from '@/components/LanguageToggle';
 import ScrollProgress from '@/components/ScrollProgress';
 import ScrollToTop from "@/components/ScrollToTop";
+import HomeLink from '@/components/HomeLink';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ScrollProgress />
+        <HomeLink />
         <LanguageProvider>
           <LanguageToggle />
           {children}
