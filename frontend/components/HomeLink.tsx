@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, BookOpen, ArrowRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-
 const smallLogoSrc = '/loading-logo.jpg';
 
 const HomeLink = () => {
@@ -44,7 +43,7 @@ const HomeLink = () => {
              <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-blue-500/50 group-hover:border-blue-400 transition-colors">
                <Image
                  src={smallLogoSrc}
-                 alt="Home"
+                 alt="Ana Sayfa"
                  fill
                  className="object-cover"
                />

@@ -1,10 +1,9 @@
 // frontend/lib/dictionary.ts
 
-import { backIn } from "framer-motion";
-
 export const dictionary = {
   en: {
     hero: {
+      mainPage: "Main Page",
       greeting: "Hello, I'm Mertcan 👋",
       iam: "I'm",
       desc: "I optimize business processes using technology, travel the world in my free time, and collect new stories.",
@@ -84,6 +83,7 @@ export const dictionary = {
   },
   tr: {
     hero: {
+      mainPage: "Ana Sayfa",
       greeting: "Merhaba, Ben Mertcan 👋",
       iam: "Ben",
       desc: "Teknolojiyi kullanarak iş süreçlerini optimize ediyor, boş zamanlarımda dünyayı geziyor ve yeni hikayeler biriktiriyorum.",
