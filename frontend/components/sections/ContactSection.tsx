@@ -206,7 +206,9 @@ const ContactSection = () => {
         {/* Footer */}
         <div className="text-center mt-12 pb-8 text-slate-500 text-sm">
           <p className="flex items-center justify-center gap-2">
+            <span suppressHydrationWarning={true}>
             © {new Date().getFullYear()} Mertcan Ercan
+            </span>
             <span className="hidden md:inline">|</span>
             <span>{t.contact.craftedWith}</span>
           </p>

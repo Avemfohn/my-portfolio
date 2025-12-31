@@ -79,7 +79,9 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
         {/* Meta Information */}
         <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
           <div className="flex items-center gap-1">
+            <span suppressHydrationWarning>
             <Calendar className="w-3.5 h-3.5" />
+            </span>
             <span>{formattedDate}</span>
           </div>
           {displayLocation && (

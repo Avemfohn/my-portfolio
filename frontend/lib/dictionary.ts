@@ -77,7 +77,10 @@ export const dictionary = {
       readArticle: "Read Article",
       exploreLatest: "Explore the latest insights and tutorials.",
       postsFound: "Posts Found",
-      shareThisPost: "Share This Post"
+      shareThisPost: "Share This Post",
+      share_cancelled: "Share cancelled by user",
+      copy_failed: "Copy failed",
+      linkCopied: "Link Copied!"
     }
 
   },
@@ -157,6 +160,9 @@ export const dictionary = {
       exploreLatest: "En güncel rehberleri ve notları keşfet.",
       postsFound: "Yazı Bulundu",
       shareThisPost: "Bu yazıyı paylaş",
+      share_cancelled: "Paylaşım kullanıcı tarafından iptal edildi",
+      copy_failed: "Kopyalama başarısız",
+      linkCopied: "Link Kopyalandı!"
     }
   }
 };

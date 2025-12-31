@@ -35,15 +35,9 @@ const Hero = () => {
           <h1 className="text-4xl md:text-6xl font-bold leading-tight min-h-[160px] md:min-h-auto flex flex-col md:block">
             {t.hero.iam}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-
-               <Typewriter
-                 texts={[
-                   t.hero.typewriter[0], // an ERP
-                   t.hero.typewriter[1], // a Full Stack
-                   t.hero.typewriter[2], // a Traveler
-                   t.hero.typewriter[3]  // a Horse Rider
-                 ]}
-               />
+              <Typewriter
+              texts={Array.from({ length: 4 }, (_, i) => t.hero.typewriter[i])}
+              />
             </span>
           </h1>
 

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Calendar, Clock, MapPin, ArrowLeft, Share2, Tag } from 'lucide-react';
+import { Calendar, Clock, MapPin, ArrowLeft, Share2, Tag, Check } from 'lucide-react';
 import Link from 'next/link';
 import { BlogPost } from '@/types';
 import { getImageUrl } from '@/lib/api';
@@ -17,7 +17,34 @@ interface BlogPostViewProps {
 const BlogPostView = ({ post }: BlogPostViewProps) => {
   const { t, language } = useLanguage();
   const targetRef = useRef(null);
+  const [copied, setCopied] = useState(false);
 
+  const handleShare = async () => {
+    const shareData = {
+      title: post.title,
+      text: post.content || t.blog.description,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log(t.blog.share_cancelled);
+      }
+    }
+    // 2. METHOD: If not supported, copy the link (Desktop Fallback)
+    else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        // Revert back after 2 seconds
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error(t.blog.copy_failed);
+      }
+    }
+  };
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -46,7 +73,7 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
 
       {/* --- 2. HERO SECTION (PARALAKS) --- */}
       <div className="relative h-[85vh] w-full overflow-hidden flex items-center justify-center">
-        {/* Arka Plan Resmi */}
+
         <motion.div
           style={{ opacity, scale, y }}
           className="absolute inset-0 z-0"
@@ -60,11 +87,10 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
               priority
             />
           )}
-          {/* Karartma Gradyanı */}
+
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/60 to-slate-900" />
         </motion.div>
 
-        {/* Başlık ve Meta Bilgiler (Ortada Asılı) */}
         <div className="relative z-10 container mx-auto px-6 text-center mt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -80,7 +106,7 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
               {displayTitle}
             </h1>
 
-            {/* Meta Veriler */}
+            {/* Meta Datas */}
             <div className="flex flex-wrap items-center justify-center gap-6 text-slate-300 text-sm md:text-base">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-blue-400" />
@@ -100,14 +126,14 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
         </div>
       </div>
 
-      {/* --- 3. İÇERİK ALANI --- */}
+      {/* --- 3. CONTENT --- */}
       <div className="container mx-auto px-6 relative z-20 -mt-32 pb-20">
         <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* A. SOL SIDEBAR (Masaüstünde yapışık durur) */}
+          {/* A. LEFT SIDEBAR (Sticky on desktop) */}
           <aside className="hidden lg:block w-1/4 relative">
             <div className="sticky top-32 space-y-8">
-              {/* Geri Dön Butonu */}
+              {/* Back Button */}
               <Link
                 href="/blog"
                 className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
@@ -118,19 +144,32 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
                 <span className="text-sm font-medium">{t.blog.backToBlog}</span>
               </Link>
 
-              {/* Paylaş Butonu */}
-              <button className="flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors w-full">
-                 <div className="p-2 rounded-full bg-slate-800 border border-slate-700">
-                   <Share2 className="w-5 h-5" />
-                 </div>
-                 <span className="text-sm">{t.blog.shareThisPost}</span>
-              </button>
+              {/* Share Button */}
+              <button
+                onClick={handleShare}
+                disabled={copied}
+                className="flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors w-full group"
+              >
+                <div className={`p-2 rounded-full border transition-all duration-300 ${
+                  copied
+                    ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                    : 'bg-slate-800 border-slate-700 group-hover:border-blue-500/50'
+                }`}>
 
-              {/* Buraya ilerde "Table of Contents" (İçindekiler) ekleyebiliriz */}
+                  {copied ? <Check className="w-5 h-5" /> : <Share2 className="w-5 h-5" />}
+                </div>
+
+                <span className={`text-sm transition-colors ${copied ? 'text-green-400 font-medium' : ''}`}>
+                  {copied
+                    ? (t.blog.linkCopied)
+                    : t.blog.shareThisPost
+                  }
+                </span>
+              </button>
             </div>
           </aside>
 
-          {/* B. ANA METİN (MARKDOWN) */}
+          {/* B. MAIN CONTENT (MARKDOWN) */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,7 +191,7 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
               </article>
             </div>
 
-            {/* Galeri Alanı (Opsiyonel - Eğer galeride resim varsa) */}
+            {/* Gallery Area (Optional - If there are images in the gallery) */}
             {post.gallery && post.gallery.length > 0 && (
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">

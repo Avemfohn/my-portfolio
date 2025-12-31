@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, BookOpen, ArrowRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 const smallLogoSrc = '/loading-logo.jpg';
 
 const HomeLink = () => {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   let navConfig = null;
 
@@ -21,7 +23,7 @@ const HomeLink = () => {
   } else if (pathname === '/blog') {
     navConfig = {
       href: '/',
-      text: 'Ana Sayfa',
+      text: t.hero.mainPage,
       icon: <ArrowLeft className="w-5 h-5 text-blue-400 group-hover:-translate-x-1 transition-transform" />
     };
   }

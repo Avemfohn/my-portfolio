@@ -40,8 +40,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ScrollProgress />
-        <HomeLink />
+
         <LanguageProvider>
+          <HomeLink />
           <LanguageToggle />
           {children}
         </LanguageProvider>
