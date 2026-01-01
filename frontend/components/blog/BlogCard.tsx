@@ -82,7 +82,7 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
             <span suppressHydrationWarning>
             <Calendar className="w-3.5 h-3.5" />
             </span>
-            <span>{formattedDate}</span>
+            <span suppressHydrationWarning>{formattedDate}</span>
           </div>
           {displayLocation && (
             <div className="flex items-center gap-1">

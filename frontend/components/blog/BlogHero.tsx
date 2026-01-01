@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import createGlobe from 'cobe';
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
@@ -10,7 +10,23 @@ const BlogHero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t, language } = useLanguage();
 
+  const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
   const handleScroll = () => {
+
     window.scrollTo({
       top: window.innerHeight - 100,
       behavior: 'smooth',
@@ -119,12 +135,13 @@ const BlogHero = () => {
       </div>
 
       {/* --- SCROLL BUTTON (NOW WORKING) --- */}
+      {isVisible && (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-slate-500/80 cursor-pointer hover:text-blue-400 transition-colors"
-        onClick={handleScroll} // <--- Tıklama özelliği eklendi
+        onClick={handleScroll}
       >
         <span className="text-xs uppercase tracking-widest">
           {language === 'en' ? t.blog.scrollText : t.blog.scrollText}
@@ -136,7 +153,7 @@ const BlogHero = () => {
           <ArrowDown className="w-6 h-6" />
         </motion.div>
       </motion.div>
-
+      )}
     </div>
   );
 };

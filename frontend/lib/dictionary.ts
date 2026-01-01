@@ -80,7 +80,8 @@ export const dictionary = {
       shareThisPost: "Share This Post",
       share_cancelled: "Share cancelled by user",
       copy_failed: "Copy failed",
-      linkCopied: "Link Copied!"
+      linkCopied: "Link Copied!",
+      readAllArticles: "Read All Articles"
     }
 
   },
@@ -162,7 +163,8 @@ export const dictionary = {
       shareThisPost: "Bu yazıyı paylaş",
       share_cancelled: "Paylaşım kullanıcı tarafından iptal edildi",
       copy_failed: "Kopyalama başarısız",
-      linkCopied: "Link Kopyalandı!"
+      linkCopied: "Link Kopyalandı!",
+      readAllArticles: "Tüm Yazıları Oku"
     }
   }
 };
