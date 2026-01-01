@@ -4,7 +4,6 @@ import React from 'react';
 import { getBlogPostBySlug } from '@/lib/api';
 import BlogPostView from '@/components/blog/BlogPostView';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { dictionary } from '@/lib/dictionary';
 import { notFound } from 'next/navigation';
 

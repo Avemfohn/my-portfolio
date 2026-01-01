@@ -15,7 +15,7 @@
 }
 
 @theme {
-  /* --- BLOB ANİMASYONU --- */
+  /* --- BLOB ANIMATION --- */
   --animate-blob: blob 7s infinite;
 
   @keyframes blob {
@@ -71,4 +71,85 @@ body {
 html {
   scrollbar-width: thin;
   scrollbar-color: #334155 #0f172a;
+}
+
+/* --- Syntax Highlighting --- */
+/* For code blocks in blog content */
+
+pre {
+  background: #1e293b !important; /* Slate-800 */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  overflow-x: auto;
+  border: 1px solid #334155; /* Slate-700 */
+  margin: 1.5rem 0;
+}
+
+code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #e2e8f0;
+}
+
+/* Inline code */
+p code, li code {
+  background: #334155; /* Slate-700 */
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  color: #38bdf8; /* Blue-400 */
+  font-size: 0.85em;
+}
+
+/* If highlight.js or prism classes are present, colors go here */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6272a4;
+}
+
+.token.punctuation {
+  color: #f8f8f2;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #ff79c6;
+}
+
+.token.boolean,
+.token.number {
+  color: #bd93f9;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #a6e22e; /* Green */
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+  color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+  color: #e6db74; /* Yellow */
+}
+
+.token.keyword {
+  color: #ff79c6; /* Purple/Pink */
 }
