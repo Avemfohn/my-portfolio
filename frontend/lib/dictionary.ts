@@ -59,7 +59,11 @@ export const dictionary = {
       },
       craftedWith: "Crafted with passion & engineering curiosity",
     },
-
+    notFound: {
+      heading: "Houston, We Have a Problem.",
+      description: "The page you are looking for might be lost in a black hole or never existed.",
+      button: "Back to Home Base",
+    },
     //BLOG translations
     blog: {
       title: "Blog",
@@ -142,6 +146,11 @@ export const dictionary = {
         social: "Sosyal Profiller"
       },
       craftedWith: "Tutku ve mühendislik merakıyla hazırlandı",
+    },
+    notFound: {
+      heading: "Houston, Bir Sorunumuz Var.",
+      description: "Aradığın sayfa kara delikte kaybolmuş olabilir veya hiç var olmamıştır.",
+      button: "Ana Üsse Dön",
     },
     //BLOG translations
     blog : {

@@ -10,17 +10,17 @@ const BlogHero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t, language } = useLanguage();
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY < 100) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
-
+    toggleVisibility();
     window.addEventListener('scroll', toggleVisibility);
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);

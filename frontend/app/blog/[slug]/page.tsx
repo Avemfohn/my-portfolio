@@ -6,6 +6,7 @@ import BlogPostView from '@/components/blog/BlogPostView';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { dictionary } from '@/lib/dictionary';
+import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -38,17 +39,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const post = await getBlogPostBySlug(slug);
 
   if (!post) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-blue-500 mb-4">404</h1>
-          <p className="text-xl text-slate-400">{t.blog.noPostsFound}</p>
-          <Link href="/blog" className="mt-8 inline-block px-6 py-3 bg-slate-800 rounded-full hover:bg-slate-700 transition">
-              {t.blog.backToBlog}
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
   return <BlogPostView post={post} />;
 }
