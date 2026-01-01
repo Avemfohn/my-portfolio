@@ -22,24 +22,24 @@ const api = axios.create({
 export const getImageUrl = (path?: string) => {
   if (!path) return '/placeholder.png';
 
-  // 1. Eğer tam link geldiyse (http://...)
+  // Public (Tarayıcıda çalışacak) URL kökü
+  const publicRoot = process.env.NEXT_PUBLIC_MEDIA_URL || 'http://localhost:8000';
+
+  // Eğer tam link geldiyse (http://...)
   if (path.startsWith('http')) {
-    // LOKAL DOCKER DÜZELTMESİ:
-    // Django bazen veritabanına "http://django-web:8000/media/..." diye kaydeder.
-    // Ama tarayıcı "django-web"i tanımaz. Onu "localhost" (veya canlı domain) ile değiştirmeliyiz.
-
-    // Internal API URL'in kökünü bul (örn: http://django-web:8000)
-    const internalRoot = process.env.INTERNAL_API_URL ? new URL(process.env.INTERNAL_API_URL).origin : null;
-
-    // Public Media URL (örn: http://localhost:8000 veya https://api.railway.app)
-    const publicRoot = process.env.NEXT_PUBLIC_MEDIA_URL || '';
-
-    // Eğer linkte "django-web" varsa, onu Public URL ile değiştir.
-    if (internalRoot && path.includes(internalRoot)) {
-      return path.replace(internalRoot, publicRoot);
+    // Docker içindeki container adlarını manuel olarak yakala ve değiştir
+    // Bu sayede Server (SSR) da render ederken 'localhost' yazar.
+    if (path.includes('django-web:8000')) {
+        return path.replace('http://django-web:8000', publicRoot);
+    }
+    if (path.includes('backend:8000')) {
+        return path.replace('http://backend:8000', publicRoot);
+    }
+    if (path.includes('127.0.0.1:8000')) {
+       return path.replace('http://127.0.0.1:8000', publicRoot);
     }
 
-    // Canlıdaysak veya sorun yoksa olduğu gibi dön
+    // Zaten düzgünse dokunma
     return path;
   }
 
