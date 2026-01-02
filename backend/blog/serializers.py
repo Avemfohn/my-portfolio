@@ -33,7 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'title', 'title_tr', 'slug', 'content', 'content_tr', 'cover_image', 'location', 'location_tr', 'category', 'category_detail', 'gallery', 'created_at']
 
-    def get_cover_image_url(self, obj):
+    def get_cover_image(self, obj):
         if obj.cover_image:
             url = obj.cover_image.url
             # Eğer URL'nin sonunda nokta yoksa (uzantı eksikse) .jpg ekle
