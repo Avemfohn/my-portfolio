@@ -116,13 +116,13 @@ DATABASES = {
     }
 }
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-       'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
-            conn_max_age=600
-        )
-    }
+#if 'DATABASE_URL' in os.environ:
+#    DATABASES = {
+#       'default': dj_database_url.config(
+#            default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
+#            conn_max_age=600
+#        )
+#    }
 
 
 # Password validation
@@ -186,12 +186,14 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
+
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('MAIL_HOST')
-EMAIL_PORT = int(os.getenv('MAIL_PORT'))
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
-EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
+#EMAIL_HOST = os.getenv('MAIL_HOST')
+#EMAIL_PORT = int(os.getenv('MAIL_PORT'))
+#EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = False
+#EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
+#EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('MAIL_FROM_ADDRESS')

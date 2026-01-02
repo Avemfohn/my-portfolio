@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import AnonRateThrottle
+import resend
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_published=True).order_by('-created_at')
@@ -69,28 +70,25 @@ class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         instance = serializer.save()
 
         try:
-            subject = f"New Contact Message: {instance.name}"
+            resend.api_key = settings.RESEND_API_KEY
 
-            email_body = f"""
-            A new contact message has been received from the website.
 
-            Sender: {instance.name}
-            Email Address: {instance.email}
-
-            Message:
-            {instance.message}
+            html_body = f"""
+                <h3>New Contact Message!</h3>
+                <p><strong>Name:</strong> {instance.name}</p>
+                <p><strong>Email:</strong> {instance.email}</p>
+                <hr>
+                <p><strong>Message:</strong></p>
+                <p>{instance.message}</p>
             """
 
-            send_mail(
-                subject,
-                email_body,
-                settings.DEFAULT_FROM_EMAIL,
-                [settings.DEFAULT_FROM_EMAIL],
-                fail_silently=False,
-                connection=None,
-                html_message=None
-            )
-            print("Mail sent successfully!")
+            resend.Emails.send({
+                "from": "Portfolio <onboarding@resend.dev>",
+                "to": [settings.DEFAULT_FROM_EMAIL],
+                "subject": f"Contact Form: {instance.name}",
+                "html": html_body
+            })
+            print("Mail has been sent!")
 
         except Exception as e:
             print(f"Mail error: {e}")
