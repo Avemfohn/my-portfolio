@@ -84,7 +84,7 @@ class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
             resend.Emails.send({
                 "from": "Portfolio <onboarding@resend.dev>",
-                "to": [settings.DEFAULT_FROM_EMAIL],
+                "to": settings.DEFAULT_FROM_EMAIL,
                 "subject": f"Contact Form: {instance.name}",
                 "html": html_body
             })
