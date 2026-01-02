@@ -81,9 +81,8 @@ class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 <p><strong>Message:</strong></p>
                 <p>{instance.message}</p>
             """
-
             resend.Emails.send({
-                "from": "Portfolio <onboarding@resend.dev>",
+                "from": f"Mertcan Portfolio <{settings.DEFAULT_FROM_EMAIL}>",
                 "to": settings.DEFAULT_FROM_EMAIL,
                 "subject": f"Contact Form: {instance.name}",
                 "html": html_body
