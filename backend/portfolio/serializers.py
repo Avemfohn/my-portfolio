@@ -9,7 +9,7 @@ class SkillSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     # By using SkillSerializer, we can nest skill details within project representation
     skills = SkillSerializer(many=True, read_only=True)
-
+    image = serializers.ImageField(use_url=True)
     class Meta:
         model = Project
         fields = '__all__'
