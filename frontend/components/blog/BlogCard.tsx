@@ -69,47 +69,52 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
     >
       {/* --- Media Area --- */}
       <Link href={`/blog/${post.slug}`} className="relative w-full aspect-[16/9] overflow-hidden block bg-slate-900">
-        {post.cover_image ? (
-          <>
-            {/* Statik Resim */}
-            <Image
-              src={getImageUrl(post.cover_image).replace(/\.(mp4|webm|mov)$/i, '.jpg')}
-              alt={displayTitle}
-              fill
-              priority
-              className={`object-cover transition-all duration-700
-                ${isVideo && isHovered ? 'opacity-0 scale-[1.2]' : 'opacity-100 scale-[1.2] group-hover:scale-[1.3]'}
-              `}
-            />
-            {/* Video Alanı */}
-            {isVideo && (
-              <video
-                ref={videoRef}
-                src={getImageUrl(post.cover_image)}
-                loop
-                muted
-                playsInline
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700
-            ${isHovered ? 'opacity-100 scale-[1.3]' : 'opacity-100 scale-[1.2]'}
-          `}
-                poster={getImageUrl(post.cover_image).replace(/\.(mp4|webm|mov)$/i, '.jpg')}
-                style={{ objectFit: 'cover' }}
-              />
-            )}
-          </>
-        ) : (
-          <div className="w-full h-full bg-slate-700 flex items-center justify-center text-slate-500">
-            {t.blog?.noImg || "No Image Available"}
-          </div>
-        )}
+          {post.cover_image ? (
+            <>
+              {/* Eğer dosya bir video ise, Image bileşenini HİÇ render etmiyoruz.
+                Böylece "kırık resim" ikonu çıkma ihtimalini sıfırlıyoruz.
+              */}
+              {isVideo ? (
+                <video
+                  ref={videoRef}
+                  src={getImageUrl(post.cover_image)}
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  /* Başlangıçtan itibaren zoomlu ve görünür */
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700
+                    ${isHovered ? 'scale-[1.3]' : 'scale-[1.2]'}
+                  `}
+                  /* Video yüklenene kadar ilk kareyi gösterir */
+                  poster={getImageUrl(post.cover_image).replace(/\.(mp4|webm|mov)$/i, '.jpg')}
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : (
+                /* Sadece resim olan postlar için standart Image bileşeni */
+                <Image
+                  src={getImageUrl(post.cover_image)}
+                  alt={displayTitle}
+                  fill
+                  priority
+                  className="object-cover transition-transform duration-700 group-hover:scale-130"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full bg-slate-700 flex items-center justify-center text-slate-500">
+              {t.blog?.noImg || "No Image Available"}
+            </div>
+          )}
 
-        {/* Category Badge */}
-        {displayCategory && (
-          <div className="absolute top-4 left-4 z-20 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-            {displayCategory}
-          </div>
-        )}
-      </Link>
+          {/* Category Badge */}
+          {displayCategory && (
+            <div className="absolute top-4 left-4 z-20 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+              {displayCategory}
+            </div>
+          )}
+        </Link>
 
       {/* --- Content Area --- (Aynı kalıyor) */}
       <div className="flex flex-col flex-1 p-6">
