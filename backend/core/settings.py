@@ -31,7 +31,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 'DEBUG' should be 0 or
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG')
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a , between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1,[::1]'
@@ -118,7 +118,7 @@ DATABASES = {
     }
 }
 
-if 'DATABASE_URL' in os.environ:
+if not DEBUG and 'DATABASE_URL' in os.environ:
     DATABASES = {
        'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
