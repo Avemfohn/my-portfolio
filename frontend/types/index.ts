@@ -13,6 +13,7 @@ export interface Skill extends BaseEntity {
 
 export interface Project extends BaseEntity {
   title: string;
+  title_tr?: string;
   slug: string;
   description: string;
   description_tr?: string;
@@ -31,6 +32,7 @@ export interface Experience {
   category: 'work' | 'education' | 'certificate'; // Added category field
   company: string;
   title: string;
+  title_tr?: string;
   location: string;
   start_date: string;
   end_date: string | null;
@@ -57,6 +59,7 @@ export interface PostImage {
 
 export interface BlogPost {
   id: number;
+  date: string;
   title: string;
   title_tr?: string;
   slug: string;

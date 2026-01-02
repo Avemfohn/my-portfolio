@@ -22,6 +22,7 @@ class Skill (TimeStampedModel):
 # Project model to represent portfolio projects
 class Project (TimeStampedModel):
     title = models.CharField(max_length=200)
+    title_tr = models.CharField(max_length=200, blank=True, null=True, verbose_name="Başlık (Türkçe)")
     description = models.TextField(blank=True, help_text="English Description")
     description_tr = models.TextField(blank=True, null=True, verbose_name="Açıklama (Türkçe)")
     github_link = models.URLField(blank=True, null=True)
@@ -54,6 +55,7 @@ class Experience(models.Model):
 
     company = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
+    title_tr = models.CharField(max_length=100, blank=True, null=True, verbose_name="Başlık (Türkçe)")
     location = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)

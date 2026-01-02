@@ -23,8 +23,6 @@ export default async function BlogPage() {
   return (
   <main className="bg-slate-900">
     <BlogHero />
-
-    {/* -mt-20 yaparak paneli dünyanın üzerine bindiriyoruz */}
     <div className="-mt-20 relative z-20">
        <BlogContent posts={posts} categories={categories || []}  serverError={error} />
     </div>

@@ -5,4 +5,5 @@ class PortfolioConfig(AppConfig):
     name = 'portfolio'
 
     def ready(self):
-        import portfolio.signals
+        #import portfolio.signals
+        pass

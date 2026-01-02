@@ -73,23 +73,36 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
 
       {/* --- 2. HERO SECTION (PARALAKS) --- */}
       <div className="relative h-[85vh] w-full overflow-hidden flex items-center justify-center">
+  <motion.div
+    style={{ opacity, scale, y }}
+    className="absolute inset-0 z-0"
+  >
+    {post.cover_image && (
+      <>
+        {/* Uzantı kontrolü yapıyoruz */}
+        {post.cover_image.match(/\.(mp4|webm|mov|ogg)$/i) ? (
+          <video
+            src={getImageUrl(post.cover_image)}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={getImageUrl(post.cover_image)}
+            alt={displayTitle}
+            fill
+            className="object-cover"
+            priority
+          />
+        )}
+      </>
+    )}
 
-        <motion.div
-          style={{ opacity, scale, y }}
-          className="absolute inset-0 z-0"
-        >
-          {post.cover_image && (
-            <Image
-              src={getImageUrl(post.cover_image)}
-              alt={displayTitle}
-              fill
-              className="object-cover"
-              priority
-            />
-          )}
-
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/60 to-slate-900" />
-        </motion.div>
+         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/60 to-slate-900" />
+    </motion.div>
 
         <div className="relative z-10 container mx-auto px-6 text-center mt-20">
           <motion.div

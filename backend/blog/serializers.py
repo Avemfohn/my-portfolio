@@ -11,10 +11,14 @@ class PostImageSerializer(serializers.ModelSerializer):
     def get_image(self, obj):
         if obj.image:
             url = obj.image.url
-            # Eğer dosya isminde nokta yoksa (uzantı eksikse) .jpg ekle
-            if '.' not in url.split('/')[-1]:
-                return f"{url}.jpg"
-            return url
+            if '/video/' in url:
+                base_url = url.split('?')[0].rsplit('.', 1)[0]
+                return f"{base_url}.mp4"
+
+            if '.' in url.split('/')[-1]:
+                return url
+
+            return f"{url}.jpg"
         return None
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -23,21 +27,33 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'name_tr', 'slug']
 
 class PostSerializer(serializers.ModelSerializer):
-    # To show category details
     category_detail = CategorySerializer(source='category', read_only=True)
-    # To embed the gallery inside the post
     gallery = PostImageSerializer(many=True, read_only=True)
     cover_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'title_tr', 'slug', 'content', 'content_tr', 'cover_image', 'location', 'location_tr', 'category', 'category_detail', 'gallery', 'created_at']
+        fields = [
+            'id', 'title', 'title_tr', 'slug', 'content', 'content_tr',
+            'cover_image', 'location', 'location_tr', 'category',
+            'category_detail', 'gallery', 'created_at'
+        ]
 
     def get_cover_image(self, obj):
         if obj.cover_image:
             url = obj.cover_image.url
-            # Eğer URL'nin sonunda nokta yoksa (uzantı eksikse) .jpg ekle
+
+            # Eğer Cloudinary dosyayı 'video' klasörüne attıysa linkte '/video/' geçer
+            if '/video/' in url:
+                # Sadece sondaki uzantıyı değiştiriyoruz, geri kalan her şeyi koruyoruz
+                if '.' in url.split('/')[-1]:
+                    base = url.rsplit('.', 1)[0]
+                    return f"{base}.mp4"
+                return f"{url}.mp4"
+
+            # Eğer resim klasöründeyse (/image/) ve uzantı yoksa .jpg ekle
             if '.' not in url.split('/')[-1]:
                 return f"{url}.jpg"
+
             return url
         return None
