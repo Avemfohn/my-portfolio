@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // Cloudinary'ye izin veriyoruz
+        pathname: '/**', // Tüm resim yollarına izin ver
+      },
+
+      {
         protocol: 'http',
         hostname: 'localhost',
         port: '8000',
@@ -24,6 +30,10 @@ const nextConfig: NextConfig = {
         hostname: '127.0.0.1',
         port: '8000',
         pathname: '/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.mertcanercan.com',
       },
       {
         protocol: 'https',

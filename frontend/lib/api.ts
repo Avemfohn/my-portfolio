@@ -22,6 +22,10 @@ const api = axios.create({
 export const getImageUrl = (path?: string) => {
   if (!path) return '/placeholder.png';
 
+  if (path.includes('cloudinary.com')) {
+    return path;
+  }
+
   // Public (Tarayıcıda çalışacak) URL kökü
   const publicRoot = process.env.NEXT_PUBLIC_MEDIA_URL || 'http://localhost:8000';
 
