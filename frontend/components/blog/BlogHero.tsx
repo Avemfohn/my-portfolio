@@ -85,51 +85,36 @@ const BlogHero = () => {
       <div className="container mx-auto px-6 grid md:grid-cols-2 h-full items-center relative z-20">
 
         {/* --- 1. LEFT SIDE: TEXT --- */}
-        <div className="text-left pt-20 md:pt-0">
-          <motion.span
+            <div className="text-left z-30 pointer-events-none">
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-mono mb-6"
+            className="pointer-events-auto"
           >
-            {language === 'en' ? t.blog.badge : t.blog.badge}
-          </motion.span>
-
-          <motion.h1
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-5xl md:text-8xl font-bold text-white tracking-tighter leading-tight"
-          >
-            {language === 'en' ? "My Journey" : "Yolculuğum"}
-            <span className="text-blue-500">.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-slate-400 mt-6 text-lg md:text-xl max-w-lg leading-relaxed"
-          >
-            {language === 'en'? t.blog.description : t.blog.description}
-          </motion.p>
+            <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tighter leading-tight">
+              {language === 'en' ? "My Journey" : "Yolculuğum"}
+              <span className="text-blue-500">.</span>
+            </h1>
+            <p className="text-slate-400 mt-4 text-sm md:text-xl max-w-[180px] md:max-w-lg leading-relaxed">
+              {language === 'en' ? t.blog.description : t.blog.description}
+            </p>
+          </motion.div>
         </div>
 
         {/* --- 2. RIGHT SIDE: GLOBE (CANVAS) --- */}
         {/* Desktop: right-[-25%] -> Stuck to the right and half outside
             Mobile: bottom-[-10%] -> At the bottom
         */}
-        <div className="absolute md:static top-0 md:top-auto right-0 md:right-auto bottom-0 w-full h-full md:w-auto md:h-auto flex items-center justify-center md:justify-end pointer-events-none z-10 opacity-60 md:opacity-100">
-
-           {/* Globe Positioning Box */}
-           <div className="absolute bottom-[-10%] md:top-[10%] md:bottom-auto right-0 md:right-[-30%] w-[120vw] md:w-[60vw] aspect-square">
-              <canvas
-                ref={canvasRef}
-                style={{
-                   width: '100%',
-                   height: '100%',
-                }}
-              />
-           </div>
+              <div className="relative h-full flex items-center">
+          {/* Mobilde: Sola doğru taşması için left-[-20%] verdik,
+              bu sayede metnin hafifçe arkasına/üstüne girer.
+          */}
+          <div className="absolute left-[-20%] md:left-0 md:relative w-[150vw] md:w-[65vw] aspect-square z-10">
+            <canvas
+              ref={canvasRef}
+              className="w-full h-full opacity-80 md:opacity-100"
+            />
+          </div>
         </div>
 
       </div>
