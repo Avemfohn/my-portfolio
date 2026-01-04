@@ -211,9 +211,10 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.RawMediaCloudinaryStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
