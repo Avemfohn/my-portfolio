@@ -199,39 +199,67 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
       prose-img:rounded-2xl prose-img:border prose-img:border-slate-700/50
     ">
       <ReactMarkdown
-        components={{
+  components={{
+    // 1. BAŞLIKLAR (H1, H2, H3)
+    h1: ({ node, ...props }) => (
+      <h1 className="text-3xl md:text-4xl font-bold text-white mt-10 mb-6 leading-tight" {...props} />
+    ),
+    h2: ({ node, ...props }) => (
+      <h2 className="text-2xl md:text-3xl font-bold text-blue-100 mt-10 mb-4 pb-2 border-b border-slate-700/50" {...props} />
+    ),
+    h3: ({ node, ...props }) => (
+      <h3 className="text-xl md:text-2xl font-semibold text-blue-200 mt-8 mb-3" {...props} />
+    ),
 
-          code({ node, inline, className, children, ...props }: any) {
-            const match = /language-(\w+)/.exec(className || '');
-            return !inline && match ? (
-              <div className="relative group my-8">
+    // 2. PARAGRAFLAR VE LİSTELER
+    p: ({ node, ...props }) => (
+      <p className="text-slate-300 text-lg leading-relaxed mb-6" {...props} />
+    ),
+    ul: ({ node, ...props }) => (
+      <ul className="list-disc list-outside ml-6 text-slate-300 mb-6 space-y-2" {...props} />
+    ),
+    ol: ({ node, ...props }) => (
+      <ol className="list-decimal list-outside ml-6 text-slate-300 mb-6 space-y-2" {...props} />
+    ),
+    li: ({ node, ...props }) => (
+      <li className="pl-2" {...props} />
+    ),
+    blockquote: ({ node, ...props }) => (
+      <blockquote className="border-l-4 border-blue-500 bg-slate-800/50 pl-4 py-2 my-6 italic text-slate-400 rounded-r-lg" {...props} />
+    ),
+    a: ({ node, ...props }) => (
+      <a className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors" {...props} />
+    ),
 
-                <div className="absolute right-4 top-0 -translate-y-1/2 bg-slate-700 text-slate-300 text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded border border-slate-600 z-10 shadow-xl">
-                  {match[1]}
-                </div>
-
-                <SyntaxHighlighter
-                  style={oneDark}
-                  language={match[1]}
-                  PreTag="div"
-                  className="!rounded-2xl !bg-slate-950/80 !border !border-slate-800 !p-6 !m-0 shadow-inner"
-                  showLineNumbers={true}
-                  {...props}
-                >
-                  {String(children).replace(/\n$/, '')}
-                </SyntaxHighlighter>
-              </div>
-            ) : (
-
-              <code className="bg-slate-900/80 text-orange-300 px-1.5 py-0.5 rounded font-mono text-sm border border-slate-700/50" {...props}>
-                {children}
-              </code>
-            );
-          },
-        }}
-      >
-        {displayContent || ""}
-      </ReactMarkdown>
+    // 3. KOD BLOKLARI (Senin Mevcut Kodun)
+    code({ node, inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <div className="relative group my-8">
+          <div className="absolute right-4 top-0 -translate-y-1/2 bg-slate-700 text-slate-300 text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded border border-slate-600 z-10 shadow-xl">
+            {match[1]}
+          </div>
+          <SyntaxHighlighter
+            style={oneDark}
+            language={match[1]}
+            PreTag="div"
+            className="!rounded-2xl !bg-slate-950/80 !border !border-slate-800 !p-6 !m-0 shadow-inner"
+            showLineNumbers={true}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        </div>
+      ) : (
+        <code className="bg-slate-900/80 text-orange-300 px-1.5 py-0.5 rounded font-mono text-sm border border-slate-700/50" {...props}>
+          {children}
+        </code>
+      );
+    },
+  }}
+>
+  {displayContent || ""}
+</ReactMarkdown>
     </article>
   </div>
 
