@@ -211,13 +211,16 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage", # Kullanıcı yüklemeleri (Resim/Video) Cloudinary'ye
+        # Video sorunlarını çözmek için burayı RawMediaCloudinaryStorage yapmıştık, hatırla!
+        # Eğer videolarda sorun yaşarsan burayı tekrar Raw... yapmalısın.
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # CSS/JS Whitenoise'a (Local)
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# 2. Eski Kütüphaneyi Susturmak İçin "Kukla" Ayar
-# DİKKAT: Burayı da Whitenoise yapıyoruz ki Cloudinary'ye yüklemeye çalışmasın!
+# --- KRİTİK EKLEME ---
+# django-cloudinary-storage kütüphanesinin çökmesini engellemek için
+# bu eski ayarı da mecburiyetten tutuyoruz:
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
