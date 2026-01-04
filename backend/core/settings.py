@@ -211,11 +211,9 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {
-        # Video sorunlarını çözmek için burayı RawMediaCloudinaryStorage yapmıştık, hatırla!
-        # Eğer videolarda sorun yaşarsan burayı tekrar Raw... yapmalısın.
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "cloudinary_storage.storage.RawMediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
     },
 }
