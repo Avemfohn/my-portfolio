@@ -211,9 +211,13 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage", # Kullanıcı yüklemeleri (Resim/Video) Cloudinary'ye
     },
     "staticfiles": {
-        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # CSS/JS Whitenoise'a (Local)
     },
 }
+
+# 2. Eski Kütüphaneyi Susturmak İçin "Kukla" Ayar
+# DİKKAT: Burayı da Whitenoise yapıyoruz ki Cloudinary'ye yüklemeye çalışmasın!
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
