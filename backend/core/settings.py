@@ -223,4 +223,4 @@ STORAGES = {
 # --- KRİTİK EKLEME ---
 # django-cloudinary-storage kütüphanesinin çökmesini engellemek için
 # bu eski ayarı da mecburiyetten tutuyoruz:
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
