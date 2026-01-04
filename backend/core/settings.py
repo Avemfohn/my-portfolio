@@ -209,12 +209,14 @@ CLOUDINARY_STORAGE = {
     #'STATICFILES_RESOURCE_TYPE': 'image'
 }
 
+# settings.py düzeltmesi (Eğer Whitenoise kullanmayacaksan)
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
     },
 }
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Kukla ayar (Kütüphane hatası için)
+STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
