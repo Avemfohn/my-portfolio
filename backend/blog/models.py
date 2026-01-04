@@ -38,6 +38,13 @@ class Post(TimeStampedModel):
             storage=RawMediaCloudinaryStorage(),
             validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp', 'mp4', 'mov', 'webm'])]
         )
+    preview_image = models.FileField(
+            upload_to='blog/previews/',
+            null=True,
+            blank=True,
+            storage=RawMediaCloudinaryStorage(),
+            help_text="If provided, this image will be used as a preview for the blog post."
+        )
     location = models.CharField(max_length=200, blank=True, null=True)
     location_tr = models.CharField(max_length=200, blank=True, null=True)
     is_published = models.BooleanField(default=False)

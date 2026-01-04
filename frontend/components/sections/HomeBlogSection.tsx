@@ -15,11 +15,15 @@ interface HomeBlogProps {
 
 // Ayrı bir component oluşturmak yönetimi kolaylaştırır
 const HomeBlogCard = ({ post, i, language, t }: { post: BlogPost, i: number, language: string, t: any }) => {
+
+  const title = (language === 'tr' && post.title_tr) ? post.title_tr : post.title;
+
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const isVideo = post.cover_image?.match(/\.(mp4|webm|mov)$/i);
-  const title = (language === 'tr' && post.title_tr) ? post.title_tr : post.title;
+  const coverImageRaw = post.cover_image || "";
+  const isVideo = Boolean(coverImageRaw.toLowerCase().match(/\.(mp4|webm|mov|ogg)$/i));
+  const videoUrl = getImageUrl(coverImageRaw);
 
   useEffect(() => {
     if (videoRef.current && isVideo) {
@@ -31,6 +35,9 @@ const HomeBlogCard = ({ post, i, language, t }: { post: BlogPost, i: number, lan
       }
     }
   }, [isHovered, isVideo]);
+
+  const staticImageSource = post.preview_image || post.cover_image || "";
+  const staticImageUrl = getImageUrl(staticImageSource);
 
   return (
     <motion.div
@@ -45,38 +52,46 @@ const HomeBlogCard = ({ post, i, language, t }: { post: BlogPost, i: number, lan
       <Link href={`/blog/${post.slug}`} className="block h-full w-full">
         {/* --- Media Area --- */}
         <div className="absolute inset-0">
-          {post.cover_image ? (
-            <>
-              {/* Statik Resim: Her zaman arkada veya video yoksa gözükür */}
-              <Image
-                src={getImageUrl(post.cover_image).replace(/\.(mp4|webm|mov)$/i, '.jpg')}
-                alt={title}
-                fill
-                className={`object-cover transition-all duration-700
-                  ${isVideo && isHovered ? 'opacity-0 scale-[1.2]' : 'opacity-100 scale-[1.2] group-hover:scale-[1.3]'}
-                `}
-              />
+          {(post.preview_image || post.cover_image) ? (
+                      <Image
+                        src={staticImageUrl}
+                        alt={title}
+                        fill
+                        // Video varsa ve hover yapıldıysa resim görünmez olsun ki video net gözüksün (opsiyonel)
+                        // Z-Index: 10 (Altta)
+                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700
+                              ${isHovered ? 'scale-[1.3]' : 'scale-[1.2]'}
+                            `}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                  ) : (
+                      <div className="w-full h-full bg-slate-700 flex items-center justify-center text-slate-500">
+                          {t.blog?.noImg || "No Image"}
+                      </div>
+                  )}
 
-
-              {/* Video Alanı */}
-                          {isVideo && (
-                            <video
-                              ref={videoRef}
-                              src={getImageUrl(post.cover_image)}
-                              loop
-                              muted
-                              playsInline
-                              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700
-                          ${isHovered ? 'opacity-100 scale-[1.3]' : 'opacity-100 scale-[1.2]'}
+                  {/* KATMAN 2: VİDEO (ÜST KATMAN)
+                      Sadece 'isVideo' true ise render edilir.
+                      Z-Index: 20 (Üstte)
+                      Opacity: Başlangıçta 0 (Görünmez), Hover olunca 100 (Görünür).
+                  */}
+                  {isVideo && (
+                      <video
+                        ref={videoRef}
+                        src={videoUrl}
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                       className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 z-20
+                          ${isHovered
+                            ? 'opacity-100 scale-[1.5]'
+                            : 'opacity-0 scale-[1.4]'}
                         `}
-                              poster={getImageUrl(post.cover_image).replace(/\.(mp4|webm|mov)$/i, '.jpg')}
-                              style={{ objectFit: 'cover' }}
-                            />
-                          )}
-            </>
-          ) : (
-            <div className="w-full h-full bg-slate-800" />
-          )}
+                        style={{ objectFit: 'cover' }}
+                      />
+                  )}
+
 
           {/* Darkening Gradient: İçeriğin okunması için şart */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 z-10" />

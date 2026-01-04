@@ -66,6 +66,7 @@ export interface BlogPost {
   content: string;
   content_tr?: string;
   cover_image: string | null;
+  preview_image: string | null;
   location: string | null;
   location_tr?: string;
   created_at: string;

@@ -35,7 +35,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'title', 'title_tr', 'slug', 'content', 'content_tr',
-            'cover_image', 'location', 'location_tr', 'category',
+            'cover_image', 'preview_image', 'location', 'location_tr', 'category',
             'category_detail', 'gallery', 'created_at'
         ]
 
@@ -56,4 +56,20 @@ class PostSerializer(serializers.ModelSerializer):
                 return f"{url}.jpg"
 
             return url
+        return None
+
+    def get_preview_image(self, obj):
+        if obj.preview_image:
+            url = obj.preview_image.url
+
+            url = url.replace('/raw/upload/', '/image/upload/')
+            url = url.replace('/video/upload/', '/image/upload/')
+
+            if '.' not in url.split('/')[-1]:
+                return f"{url}.jpg"
+            return url
+
+        elif obj.cover_image and not obj.cover_image.url.lower().endswith(('.mp4', '.mov', '.webm')):
+             return self.get_cover_image(obj)
+
         return None
