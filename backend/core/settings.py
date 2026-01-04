@@ -219,8 +219,3 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
-# --- KRİTİK EKLEME ---
-# django-cloudinary-storage kütüphanesinin çökmesini engellemek için
-# bu eski ayarı da mecburiyetten tutuyoruz:
-STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
