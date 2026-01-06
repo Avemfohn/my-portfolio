@@ -16,32 +16,37 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(() => {
+    if (typeof window === 'undefined') return 'en';
+
+    const savedLang = localStorage.getItem('language') as Language;
+    if (savedLang) return savedLang;
+
+    const browserLang = navigator.language.split('-')[0];
+    return browserLang === 'tr' ? 'tr' : 'en';
+  });
+
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+
   useEffect(() => {
-    const savedLang = localStorage.getItem('language') as Language;
-    if (savedLang && savedLang !== 'en') {
-      setTimeout(() => {
-        setLanguage(savedLang);
-      }, 0);
-    }
-  }, []);
+    document.documentElement.lang = language;
+
+    localStorage.setItem('language', language);
+
+  }, [language]);
 
   const toggleLanguage = async () => {
     if (isTransitioning) return;
     const newLang = language === 'en' ? 'tr' : 'en';
-    // A. Close the curtain
+
     setIsTransitioning(true);
-    // B. Wait for the curtain to close (300ms - in sync with CSS transition duration)
     await new Promise((resolve) => setTimeout(resolve, 300));
-    // C. Change the language (User sees a black screen during this)
+
     setLanguage(newLang);
-    localStorage.setItem('language', newLang);
-    // D. Scroll to the top to give the feeling that the page has changed
-    //window.scrollTo({ top: 0, behavior: 'instant' });
+
     await new Promise((resolve) => setTimeout(resolve, 400));
-    // E. Remove the curtain
+
     setIsTransitioning(false);
   };
 
@@ -50,7 +55,6 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   return (
     <LanguageContext.Provider value={{ language, toggleLanguage, t, isTransitioning }}>
       <PageTransition isVisible={isTransitioning} />
-
       {children}
     </LanguageContext.Provider>
   );
