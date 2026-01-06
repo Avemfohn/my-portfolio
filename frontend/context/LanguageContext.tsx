@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, Suspense } from 'react';
 import { dictionary } from '@/lib/dictionary';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
@@ -16,37 +16,50 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+// 1. İÇ BİLEŞEN: Tüm mantık burada döner
+const LanguageProviderContent = ({ children }: { children: React.ReactNode }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
+
+  // -- Başlangıç State'i (Lazy Init) --
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window === 'undefined') return 'en';
 
+    // 1. URL'e bak
     const urlLang = searchParams.get('lang');
     if (urlLang === 'tr' || urlLang === 'en') {
-      return urlLang as Language;
+      return urlLang;
     }
 
+    // 2. LocalStorage'a bak
     const savedLang = localStorage.getItem('language') as Language;
     if (savedLang) return savedLang;
 
+    // 3. Tarayıcıya bak
     const browserLang = navigator.language.split('-')[0];
     return browserLang === 'tr' ? 'tr' : 'en';
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // -- URL Güncelleme Efekti --
+  useEffect(() => {
+    // Sadece pathname mevcutsa çalıştır (Next.js bazen null dönebilir)
+    if (pathname) {
+      const currentUrlLang = searchParams.get('lang');
 
- useEffect(() => {
-    document.documentElement.lang = language;
-    localStorage.setItem('language', language);
+      // Eğer URL'deki dil zaten bizim state ile aynıysa boşuna değiştirme (Loop engelleme)
+      if (currentUrlLang !== language) {
+        document.documentElement.lang = language;
+        localStorage.setItem('language', language);
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('lang', language);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('lang', language);
 
-    window.history.replaceState(null, '', `${pathname}?${params.toString()}`);
-
+        // URL'i sessizce güncelle
+        window.history.replaceState(null, '', `${pathname}?${params.toString()}`);
+      }
+    }
   }, [language, pathname, searchParams]);
 
   const toggleLanguage = async () => {
@@ -59,7 +72,6 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     setLanguage(newLang);
 
     await new Promise((resolve) => setTimeout(resolve, 400));
-
     setIsTransitioning(false);
   };
 
@@ -70,6 +82,17 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
       <PageTransition isVisible={isTransitioning} />
       {children}
     </LanguageContext.Provider>
+  );
+};
+
+// 2. DIŞ BİLEŞEN: Suspense Sarmalayıcı (Layout içinde hatayı önler)
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Suspense fallback={null}>
+      <LanguageProviderContent>
+        {children}
+      </LanguageProviderContent>
+    </Suspense>
   );
 };
 
