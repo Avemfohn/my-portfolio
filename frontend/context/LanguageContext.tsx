@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { dictionary } from '@/lib/dictionary';
 import { PageTransition } from '@/components/ui/PageTransition';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 type Language = 'en' | 'tr';
 
@@ -16,8 +17,16 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window === 'undefined') return 'en';
+
+    const urlLang = searchParams.get('lang');
+    if (urlLang === 'tr' || urlLang === 'en') {
+      return urlLang as Language;
+    }
 
     const savedLang = localStorage.getItem('language') as Language;
     if (savedLang) return savedLang;
@@ -29,12 +38,16 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const [isTransitioning, setIsTransitioning] = useState(false);
 
 
-  useEffect(() => {
+ useEffect(() => {
     document.documentElement.lang = language;
-
     localStorage.setItem('language', language);
 
-  }, [language]);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('lang', language);
+
+    window.history.replaceState(null, '', `${pathname}?${params.toString()}`);
+
+  }, [language, pathname, searchParams]);
 
   const toggleLanguage = async () => {
     if (isTransitioning) return;
