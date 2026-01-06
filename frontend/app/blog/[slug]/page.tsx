@@ -30,6 +30,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       images: post.cover_image ? [post.cover_image] : [],
     },
+    alternates: {
+      canonical: `https://mertcanercan.com/blog/${slug}`,
+      languages: {
+        'en-US': `https://mertcanercan.com/blog/${slug}?lang=en`,
+        'tr-TR': `https://mertcanercan.com/blog/${slug}?lang=tr`,
+      },
+    },
   };
 }
 

@@ -16,39 +16,32 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// 1. İÇ BİLEŞEN: Tüm mantık burada döner
 const LanguageProviderContent = ({ children }: { children: React.ReactNode }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  // -- Başlangıç State'i (Lazy Init) --
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window === 'undefined') return 'en';
 
-    // 1. URL'e bak
     const urlLang = searchParams.get('lang');
     if (urlLang === 'tr' || urlLang === 'en') {
       return urlLang;
     }
 
-    // 2. LocalStorage'a bak
     const savedLang = localStorage.getItem('language') as Language;
     if (savedLang) return savedLang;
 
-    // 3. Tarayıcıya bak
     const browserLang = navigator.language.split('-')[0];
     return browserLang === 'tr' ? 'tr' : 'en';
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // -- URL Güncelleme Efekti --
   useEffect(() => {
-    // Sadece pathname mevcutsa çalıştır (Next.js bazen null dönebilir)
+
     if (pathname) {
       const currentUrlLang = searchParams.get('lang');
 
-      // Eğer URL'deki dil zaten bizim state ile aynıysa boşuna değiştirme (Loop engelleme)
       if (currentUrlLang !== language) {
         document.documentElement.lang = language;
         localStorage.setItem('language', language);
@@ -56,7 +49,6 @@ const LanguageProviderContent = ({ children }: { children: React.ReactNode }) =>
         const params = new URLSearchParams(searchParams.toString());
         params.set('lang', language);
 
-        // URL'i sessizce güncelle
         window.history.replaceState(null, '', `${pathname}?${params.toString()}`);
       }
     }
@@ -85,7 +77,7 @@ const LanguageProviderContent = ({ children }: { children: React.ReactNode }) =>
   );
 };
 
-// 2. DIŞ BİLEŞEN: Suspense Sarmalayıcı (Layout içinde hatayı önler)
+
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <Suspense fallback={null}>
