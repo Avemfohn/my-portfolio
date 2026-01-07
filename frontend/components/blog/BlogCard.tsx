@@ -8,7 +8,7 @@ import { Calendar, ArrowRight, MapPin } from 'lucide-react';
 import { BlogPost } from '@/types';
 import { getImageUrl } from '@/lib/api';
 import { useLanguage } from '@/context/LanguageContext';
-
+import ReactMarkdown from 'react-markdown';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -80,12 +80,6 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
       {/* --- Media Area --- */}
       <Link href={`/blog/${post.slug}`} className="relative w-full aspect-[16/9] overflow-hidden block bg-slate-900">
 
-        {/* --- YENİ YAPI BAŞLIYOR --- */}
-
-        {/* KATMAN 1: SABİT RESİM (ZEMİN)
-            Bu her zaman render edilir. Kullanıcı siteye girdiği an bunu görür.
-            404 Hatası almazsın çünkü buraya 'preview_image' gelecek.
-        */}
         {(post.preview_image || post.cover_image) ? (
             <Image
               src={staticImageUrl}
@@ -105,11 +99,6 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
             </div>
         )}
 
-        {/* KATMAN 2: VİDEO (ÜST KATMAN)
-            Sadece 'isVideo' true ise render edilir.
-            Z-Index: 20 (Üstte)
-            Opacity: Başlangıçta 0 (Görünmez), Hover olunca 100 (Görünür).
-        */}
         {isVideo && (
             <video
               ref={videoRef}
@@ -126,8 +115,6 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
               style={{ objectFit: 'cover' }}
             />
         )}
-
-        {/* --- YENİ YAPI BİTİYOR --- */}
 
         {/* Category Badge */}
         {displayCategory && (
@@ -158,9 +145,17 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
           </h3>
         </Link>
 
-        <p className="text-slate-400 text-sm line-clamp-3 mb-6 flex-1">
-          {displayContent}
-        </p>
+        <div className="text-gray-400 line-clamp-3 text-sm">
+          <ReactMarkdown
+            allowedElements={['p', 'strong', 'em', 'span']}
+            components={{
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              p: ({node, ...props}) => <span {...props} />,
+            }}
+          >
+            {displayContent}
+          </ReactMarkdown>
+        </div>
 
         <div className="mt-auto pt-4 border-t border-slate-700/50 flex items-center justify-between">
             <Link
