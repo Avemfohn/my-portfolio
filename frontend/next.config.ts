@@ -32,8 +32,7 @@ const nextConfig: NextConfig = {
         },
         {
           key: 'Content-Security-Policy',
-          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://res.cloudinary.com; img-src 'self' data: https://res.cloudinary.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.mertcanercan.com https://res.cloudinary.com;",
-        },
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://res.cloudinary.com; img-src 'self' data: https://res.cloudinary.com; media-src 'self' https://res.cloudinary.com blob: data:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.mertcanercan.com https://res.cloudinary.com;",},
       ],
     },
   ];
