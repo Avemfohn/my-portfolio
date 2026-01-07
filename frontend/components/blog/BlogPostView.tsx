@@ -16,10 +16,26 @@ interface BlogPostViewProps {
   post: BlogPost;
 }
 
+
+
 const BlogPostView = ({ post }: BlogPostViewProps) => {
   const { t, language } = useLanguage();
   const targetRef = useRef(null);
   const [copied, setCopied] = useState(false);
+
+  const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: language === 'tr' ? post.title_tr : post.title,
+  //description: language === 'tr' ? post.summary_tr : post.summary,
+  author: {
+    '@type': 'Person',
+    name: 'Mertcan Ercan',
+    url: 'https://mertcanercan.com',
+  },
+  datePublished: post.date,
+  image: post.cover_image,
+};
 
   const handleShare = async () => {
     const shareData = {
@@ -69,8 +85,12 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
   });
 
   return (
-    <div ref={targetRef} className="bg-slate-900 min-h-screen relative text-slate-200">
 
+    <div ref={targetRef} className="bg-slate-900 min-h-screen relative text-slate-200">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
 
       {/* --- 2. HERO SECTION (PARALAKS) --- */}
@@ -200,7 +220,6 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
     ">
       <ReactMarkdown
   components={{
-    // 1. BAŞLIKLAR (H1, H2, H3)
     h1: ({ node, ...props }) => (
       <h1 className="text-3xl md:text-4xl font-bold text-white mt-10 mb-6 leading-tight" {...props} />
     ),
@@ -211,7 +230,6 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
       <h3 className="text-xl md:text-2xl font-semibold text-blue-200 mt-8 mb-3" {...props} />
     ),
 
-    // 2. PARAGRAFLAR VE LİSTELER
     p: ({ node, ...props }) => (
       <p className="text-slate-300 text-lg leading-relaxed mb-6" {...props} />
     ),
@@ -231,7 +249,6 @@ const BlogPostView = ({ post }: BlogPostViewProps) => {
       <a className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors" {...props} />
     ),
 
-    // 3. KOD BLOKLARI (Senin Mevcut Kodun)
     code({ node, inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || '');
       return !inline && match ? (

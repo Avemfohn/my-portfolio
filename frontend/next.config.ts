@@ -3,6 +3,31 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV !== 'production';
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          }
+        ],
+      },
+    ];
+  },
+
+  // Senin mevcut ayarların (Aynen korundu)
   experimental: {
     serverActions: {
       allowedOrigins: [
@@ -15,10 +40,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com', // Cloudinary'ye izin veriyoruz
-        pathname: '/**', // Tüm resim yollarına izin ver
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
       },
-
       {
         protocol: 'http',
         hostname: 'localhost',
