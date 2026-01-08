@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     'portfolio',
     'blog',
     'django_filters',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -180,8 +183,12 @@ REST_FRAMEWORK = {
         'anon': '5/hour', # Contact form specific limit
     },
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'api.permissions.IsNextJSOrAdmin',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
 }
 
 #Swagger Settings

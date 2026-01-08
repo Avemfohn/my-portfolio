@@ -13,9 +13,22 @@ const baseURL = isServer
 // Fallback: Eğer env gelmezse localhost'a düş (Güvenlik ağı)
 const finalBaseURL = baseURL || 'http://localhost:8000/api';
 
+const getAuthHeaders = () => {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (isServer && process.env.PORTFOLIO_API_SECRET) {
+    headers['X-Portfolio-Secret'] = process.env.PORTFOLIO_API_SECRET;
+  }
+
+  return headers;
+};
+
+
 const api = axios.create({
   baseURL: finalBaseURL,
-  headers: { 'Content-Type': 'application/json' },
+  headers: getAuthHeaders(),
 });
 
 // --- IMAGE HELPER (RESİM URL DÜZELTİCİ) ---
@@ -66,7 +79,7 @@ export const getProjects = async () => {
 export const getExperiences = async () => {
   const res = await fetch(`${finalBaseURL}/portfolio/experiences/`, {
     cache: 'no-store',
-    headers: { 'Content-Type': 'application/json' }
+    headers: getAuthHeaders(),
   });
 
   if (!res.ok) throw new Error('Failed to fetch experiences');
@@ -89,7 +102,7 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
   // next: { revalidate: 60 } Next.js cache mantığıdır.
   const res = await fetch(`${finalBaseURL}/blog/posts/`, {
     next: { revalidate: 60 },
-    headers: { 'Content-Type': 'application/json' }
+    headers: getAuthHeaders(),
   });
 
   if (!res.ok) {
@@ -106,7 +119,7 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefi
   try {
     const res = await fetch(`${finalBaseURL}/blog/posts/${slug}/`, {
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' }
+      headers: getAuthHeaders(),
     });
 
     if (!res.ok) return undefined;
@@ -122,7 +135,7 @@ export const getCategories = async (): Promise<Category[]> => {
   try {
       const res = await fetch(`${finalBaseURL}/blog/categories/`, {
         cache: 'force-cache',
-        headers: { 'Content-Type': 'application/json' }
+        headers: getAuthHeaders(),
       });
 
       if (!res.ok) return [];
