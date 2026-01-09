@@ -18,6 +18,14 @@ const getAuthHeaders = () => {
     'Content-Type': 'application/json',
   };
 
+if (isServer) {
+    console.log("🚀 VERCEL SERVER LOGS:");
+    console.log("API URL:", finalBaseURL);
+    console.log("ENV Yüklü mü?:", process.env.PORTFOLIO_API_SECRET ? "EVET" : "HAYIR");
+    // Şifrenin ilk 3 harfini bas ki doğru mu görelim (tamamını basma güvenlik riski)
+    console.log("Şifre İpucu:", process.env.PORTFOLIO_API_SECRET?.substring(0, 3) + "...");
+  }
+
   if (isServer && process.env.PORTFOLIO_API_SECRET) {
     headers['X-Portfolio-Secret'] = process.env.PORTFOLIO_API_SECRET;
   }
