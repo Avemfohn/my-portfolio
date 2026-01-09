@@ -7,6 +7,7 @@ from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import AnonRateThrottle
 import resend
+from rest_framework.permissions import AllowAny
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_published=True).order_by('-created_at')
@@ -25,6 +26,10 @@ class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = ContactMessageSerializer
 
     throttle_classes = [AnonRateThrottle]
+
+    permission_classes = [AllowAny]
+
+    authentication_classes = []
 
     def perform_create(self, serializer):
 
