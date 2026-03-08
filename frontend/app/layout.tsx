@@ -8,7 +8,7 @@ import ScrollToTop from "@/components/ui/ScrollToTop";
 import HomeLink from '@/components/navigation/HomeLink';
 import { dictionary } from '@/lib/dictionary';
 import { Analytics } from "@vercel/analytics/next"
-
+import { GoogleAnalytics } from '@next/third-parties/google'
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -86,6 +86,7 @@ export default function RootLayout({
           <ScrollToTop/>
         </LanguageProvider>
         <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
       </body>
     </html>
   );
