@@ -7,7 +7,7 @@ import ScrollProgress from '@/components/ui/ScrollProgress';
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import HomeLink from '@/components/navigation/HomeLink';
 import { dictionary } from '@/lib/dictionary';
-
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ['latin'],
