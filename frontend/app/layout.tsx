@@ -85,6 +85,7 @@ export default function RootLayout({
 
           <ScrollToTop/>
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
