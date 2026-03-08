@@ -9,6 +9,8 @@ import HomeLink from '@/components/navigation/HomeLink';
 import { dictionary } from '@/lib/dictionary';
 import { Analytics } from "@vercel/analytics/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -86,6 +88,7 @@ export default function RootLayout({
           <ScrollToTop/>
         </LanguageProvider>
         <Analytics />
+        <SpeedInsights />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
       </body>
     </html>
